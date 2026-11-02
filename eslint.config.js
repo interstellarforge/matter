@@ -1,20 +1,25 @@
-import js from "@eslint/js";
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
+import js from "@eslint/js";
 import vitest from "@vitest/eslint-plugin";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import svelte from "eslint-plugin-svelte";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["**/dist", "**/node_modules", "design"] },
+  { ignores: ["**/dist", "**/node_modules", "**/.svelte-kit", "design"] },
   js.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
+  ...svelte.configs["flat/recommended"],
   comments.recommended,
   {
     languageOptions: {
+      globals: globals.browser,
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
+        extraFileExtensions: [".svelte"],
       },
     },
     plugins: { "simple-import-sort": simpleImportSort },
@@ -24,6 +29,13 @@ export default tseslint.config(
       "@eslint-community/eslint-comments/require-description": "warn",
     },
   },
-  { files: ["**/*.test.ts"], ...vitest.configs.all },
-  { files: ["*.config.js"], ...tseslint.configs.disableTypeChecked },
+  {
+    files: ["**/*.svelte", "**/*.svelte.ts"],
+    languageOptions: { parserOptions: { parser: tseslint.parser } },
+  },
+  { files: ["**/*.test.ts", "**/*.test.tsx"], ...vitest.configs.all },
+  {
+    files: ["*.config.js", "**/svelte.config.js"],
+    ...tseslint.configs.disableTypeChecked,
+  },
 );

@@ -16,22 +16,22 @@
 
 ## Prop conventions (both frameworks)
 
-| Concern | Convention |
-| --- | --- |
-| Variants | `variant`: `'primary' | 'secondary' | 'ghost' | 'danger'` (Button); `tone` for status colours (Badge) |
-| Size | `size`: `'sm' | 'md' | 'lg'`, default `md` (follows density) |
-| Native passthrough | Remaining props go to the root element (`id`, `class`, `aria-*`, `data-*`, handlers). Consumers can add `class`; Matter never removes theirs. |
-| Controlled / uncontrolled | Value-bearing components support both: `value` (controlled) or `defaultValue` (uncontrolled) in React; `bind:` support in Svelte. |
-| Events | React: callback props `onChange`, `onOpenChange`. Svelte: callback props (`onchange`, `onopenchange`), not `createEventDispatcher`. |
-| Children | React: `children`. Svelte 5: `children` snippet. |
-| Refs | React 19: `ref` prop. Svelte: `bind:this` on the exposed element where relevant. |
-| Naming | PascalCase components, kebab-case files (conventions: StrictPascalCase for React component files). |
-| Types | Every public prop type is exported. |
+| Concern                   | Convention                                                                                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Variants                  | `variant`: primary, secondary, ghost or danger (Button); `tone` for status colours (Badge)                                                    |
+| Size                      | `size`: sm, md or lg; default `md` (follows density)                                                                                          |
+| Native passthrough        | Remaining props go to the root element (`id`, `class`, `aria-*`, `data-*`, handlers). Consumers can add `class`; Matter never removes theirs. |
+| Controlled / uncontrolled | Value-bearing components support both: `value` (controlled) or `defaultValue` (uncontrolled) in React; `bind:` support in Svelte.             |
+| Events                    | React: callback props `onChange`, `onOpenChange`. Svelte: callback props (`onchange`, `onopenchange`), not `createEventDispatcher`.           |
+| Children                  | React: `children`. Svelte 5: `children` snippet.                                                                                              |
+| Refs                      | React 19: `ref` prop. Svelte: `bind:this` on the exposed element where relevant.                                                              |
+| Naming                    | PascalCase components, kebab-case files (conventions: StrictPascalCase for React component files).                                            |
+| Types                     | Every public prop type is exported.                                                                                                           |
 
 ## Server rendering
 
-- Static components (Button, Badge, Card, Input, Textarea, Select, Checkbox) work without JavaScript and without client-only APIs. In React they must not need `'use client'` unless they hold state.
-- Stateful components (Switch, Tabs, Dialog, Menu, Tooltip) are client components in React; in Svelte they must render on the server without touching `window`/`document` at module or render time.
+- Static components (Badge, Card, Input, Textarea, Select, Button) work without JavaScript and without client-only APIs and are server components in React. Exception: `Button` with `loading` creates a click handler, so use `loading` only from client components.
+- Stateful components (Checkbox, Switch, Tabs, Dialog, Menu, Tooltip) are client components in React (`"use client"`; enforced by `client-boundary.test.ts`: state hooks or callback refs require the directive); in Svelte they must render on the server without touching `window`/`document` at module or render time.
 - IDs for label/description links use the framework's id primitive (`useId`, Svelte `$props.id()`), never random values at render time (hydration mismatch).
 
 ## Testing matrix (per component)

@@ -1,0 +1,19 @@
+{
+  "extends": ["@tsconfig/bases/node24", "@tsconfig/bases/strictest"],
+  "compilerOptions": {
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["svelte"],
+    "moduleResolution": "bundler",
+    "module": "ESNext"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.svelte",
+    "tests/**/*.ts",
+    "tests/**/*.svelte",
+    "vitest.config.ts"
+  ]
+}

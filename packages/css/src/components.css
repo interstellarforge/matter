@@ -330,14 +330,14 @@
 
   /* Shared focus ring */
   :is(
-      .m-button,
-      .m-input,
-      .m-checkbox input,
-      .m-switch,
-      .m-tab,
-      .m-menu__item,
-      .m-dialog
-    ):focus-visible {
+    .m-button,
+    .m-input,
+    .m-checkbox input,
+    .m-switch,
+    .m-tab,
+    .m-menu__item,
+    .m-dialog
+  ):focus-visible {
     outline: 2px solid var(--m-focus);
     outline-offset: 2px;
   }
