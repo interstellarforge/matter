@@ -7,7 +7,16 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["**/dist", "**/node_modules", "**/.svelte-kit", "design"] },
+  {
+    ignores: [
+      "**/dist",
+      "**/node_modules",
+      "**/.svelte-kit",
+      "**/.next",
+      "**/next-env.d.ts",
+      "design",
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,

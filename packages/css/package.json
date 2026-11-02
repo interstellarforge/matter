@@ -1,6 +1,7 @@
 {
   "name": "@interstellarforge/matter-css",
   "version": "0.0.0",
+  "license": "MIT",
   "description": "Matter CSS distribution: token stylesheet and the no-flash theme init script. Framework-agnostic.",
   "repository": {
     "type": "git",
@@ -19,7 +20,9 @@
     "./matter.css": "./dist/matter.css"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "node src/build.ts",

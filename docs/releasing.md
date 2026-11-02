@@ -1,6 +1,6 @@
 # Releasing Matter
 
-Registry: GitHub Packages, scope `@interstellarforge` (ADR-010). Tooling: Changesets. All `@interstellarforge/matter-*` packages share one version (`fixed` group in `.changeset/config.json`), so the compatibility matrix has a single axis.
+Registry: npmjs.com (public), scope `@interstellarforge`, MIT, published with provenance (ADR-010). Reason: the packages must be installable without any token or `.npmrc` (Atlas is open source; GitHub Packages requires authentication even for public packages). Tooling: Changesets. All `@interstellarforge/matter-*` packages share one version (`fixed` group in `.changeset/config.json`), so the compatibility matrix has a single axis.
 
 ## Versioning policy
 
@@ -14,8 +14,8 @@ Registry: GitHub Packages, scope `@interstellarforge` (ADR-010). Tooling: Change
 1. Every PR that changes published behaviour adds a changeset: `pnpm changeset` (use `--empty` for docs/CI-only changes).
 2. CI (`ci.yml`): format, typecheck, lint, build, test, size budget must pass.
 3. On merge to `main`, `release.yml` (changesets/action) opens or updates a "Version Packages" PR (versions + CHANGELOG).
-4. Merging that PR runs `pnpm release` (`pnpm build && changeset publish`) and publishes to GitHub Packages with the workflow `GITHUB_TOKEN`.
-5. Consumers pin the exact version (`.npmrc`: `@interstellarforge:registry=https://npm.pkg.github.com`; the read token is a build secret, never in the repo or image).
+4. Merging that PR runs `pnpm release` (`pnpm build && changeset publish`) and publishes to npmjs.com with provenance. Publishing needs the repository secret `NPM_TOKEN` (npm automation token) or, preferably, npm trusted publishing for this repository and workflow.
+5. Consumers pin the exact version and need no `.npmrc` or token; installs work like any public npm package.
 
 ## Release checklist (v0.1.0 and later)
 
@@ -39,7 +39,7 @@ Requirements the CSS places on browsers: cascade layers (`@layer`) and `:not()` 
 ## Rollback
 
 - A published version is never overwritten. Fix forward with a patch release.
-- A bad release: publish a fixed patch, then deprecate the bad version (`npm deprecate @interstellarforge/matter-tokens@<version> "<reason, use <fixed version>>"`). Delete a version only when it leaks a secret or breaks installs for everyone, using the GitHub Packages UI/API.
+- A bad release: publish a fixed patch, then deprecate the bad version (`npm deprecate @interstellarforge/matter-tokens@<version> "<reason, use <fixed version>>"`). Delete a version only when it leaks a secret or breaks installs for everyone, and only within npm's unpublish window (72 hours after publish); otherwise deprecate.
 - Consumers roll back by pinning the previous exact version.
 
 ## Deprecation policy
@@ -48,7 +48,12 @@ Requirements the CSS places on browsers: cascade layers (`@layer`) and `:not()` 
 - A deprecation is announced in the changeset and the docs, and has a dated removal target.
 - Removal is a breaking change and follows the versioning policy above.
 
+## Local publishing
+
+Do not publish from a laptop. Every package pins `publishConfig.registry` to `https://registry.npmjs.org/` so an accidental `pnpm publish` can never go to a private default registry configured in someone's `~/.npmrc`; real releases only run in CI.
+
 ## Open
 
-- Package `license` field is not set (decision needed before publishing).
-- Whether the read-only package token for consumers is an org-level secret or per-repo.
+- License: MIT (decided 2026-11-02); `license` field and LICENSE file are in every package.
+- Create the npm organisation/scope `@interstellarforge` and the `NPM_TOKEN` secret (or trusted publishing) before the first release. Scope availability was not verifiable from the build environment.
+- Package names `@interstellarforge/matter-*` are unpublished; first publish is v0.1.0 (MATTER-67).

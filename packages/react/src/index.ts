@@ -19,3 +19,5 @@ export type { TabItem, TabsProps } from "./Tabs.tsx";
 export { Tabs } from "./Tabs.tsx";
 export type { TooltipProps } from "./Tooltip.tsx";
 export { Tooltip } from "./Tooltip.tsx";
+export type { IconProps } from "./Icon.tsx";
+export { Icon } from "./Icon.tsx";

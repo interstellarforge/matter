@@ -1,0 +1,24 @@
+{
+  "name": "matter-example-sveltekit",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 3102",
+    "build": "vite build",
+    "start": "vite preview --port 3102"
+  },
+  "dependencies": {
+    "@interstellarforge/matter-css": "workspace:*",
+    "@interstellarforge/matter-icons": "workspace:*",
+    "@interstellarforge/matter-svelte": "workspace:*"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "catalog:",
+    "@sveltejs/kit": "catalog:",
+    "@sveltejs/vite-plugin-svelte": "catalog:",
+    "svelte": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

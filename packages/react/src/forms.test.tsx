@@ -1,3 +1,4 @@
+import { search } from "@interstellarforge/matter-icons";
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
@@ -8,6 +9,7 @@ import {
   Button,
   Card,
   Checkbox,
+  Icon,
   IconButton,
   Input,
   Select,
@@ -127,5 +129,20 @@ describe("form controls", () => {
     );
 
     expect(await violations(container)).toStrictEqual([]);
+  });
+
+  it("icon is decorative without a label and an image with one", () => {
+    expect.hasAssertions();
+
+    const { container } = render(
+      <>
+        <Icon icon={search} />
+        <Icon icon={search} label="Search" />
+      </>,
+    );
+    const [decorative] = container.querySelectorAll("svg");
+
+    expect(decorative?.getAttribute("aria-hidden")).toBe("true");
+    expect(screen.getByRole("img", { name: "Search" })).toBeTruthy();
   });
 });

@@ -5,6 +5,8 @@ const rules: Record<string, RegExp> = {
   tokens:
     /^(react|react-dom|next|svelte|@sveltejs\/.+|vue|solid-js|@angular\/.+)$/,
   css: /^(react|react-dom|next|svelte|@sveltejs\/.+|vue|solid-js|@angular\/.+)$/,
+  icons:
+    /^(react|react-dom|next|svelte|@sveltejs\/.+|vue|solid-js|@angular\/.+)$/,
   react: /^(svelte|@sveltejs\/.+|vue|solid-js|@angular\/.+)$/,
   svelte: /^(react|react-dom|next|vue|solid-js|@angular\/.+)$/,
 };

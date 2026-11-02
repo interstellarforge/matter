@@ -48,6 +48,8 @@ describe("matter tokens", () => {
     }
 
     expect(css).toContain("--m-surface-raised:");
+    expect(css).toContain("color-scheme: dark;");
+    expect(css).toContain("color-scheme: light;");
     expect(css).toContain("--m-ease: cubic-bezier(0.2, 0.7, 0.25, 1);");
   });
 });

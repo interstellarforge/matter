@@ -1,3 +1,4 @@
+import { search } from "@interstellarforge/matter-icons";
 import { render, screen } from "@testing-library/svelte";
 import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
@@ -5,6 +6,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   Button,
   Checkbox,
+  Icon,
   IconButton,
   Input,
   Select,
@@ -79,6 +81,18 @@ describe("form controls", () => {
     expect(onCheckedChange).toHaveBeenNthCalledWith(1, true);
     expect(onCheckedChange).toHaveBeenNthCalledWith(2, false);
     expect(toggle.getAttribute("aria-checked")).toBe("false");
+  });
+
+  it("icon is decorative without a label and an image with one", () => {
+    expect.hasAssertions();
+
+    const { container } = render(Icon, { icon: search });
+    render(Icon, { icon: search, label: "Search" });
+
+    expect(container.querySelector("svg")?.getAttribute("aria-hidden")).toBe(
+      "true",
+    );
+    expect(screen.getByRole("img", { name: "Search" })).toBeTruthy();
   });
 
   it("has no axe violations for a composed form", async () => {

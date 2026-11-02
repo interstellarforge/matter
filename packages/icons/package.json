@@ -1,0 +1,37 @@
+{
+  "name": "@interstellarforge/matter-icons",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "Matter icon set: optimised SVG sources and tree-shakeable definitions. Framework-agnostic.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interstellarforge/matter.git",
+    "directory": "packages/icons"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "svg"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./svg/*": "./svg/*"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "node src/build.ts",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "svgo": "catalog:",
+    "vitest": "catalog:"
+  }
+}

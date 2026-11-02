@@ -3,3 +3,5 @@ node_modules
 pnpm-lock.yaml
 design
 .svelte-kit
+.next
+next-env.d.ts

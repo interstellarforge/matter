@@ -1,6 +1,7 @@
 {
   "name": "@interstellarforge/matter-tokens",
   "version": "0.0.0",
+  "license": "MIT",
   "description": "Matter design tokens (DTCG source, CSS and TypeScript output). Framework-agnostic.",
   "repository": {
     "type": "git",
@@ -22,7 +23,9 @@
     "./tokens/*": "./tokens/*"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "node src/build.ts",

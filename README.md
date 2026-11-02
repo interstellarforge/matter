@@ -24,10 +24,14 @@ pnpm typecheck && pnpm lint && pnpm format
 pnpm check:size   # gzip budget for matter.css
 ```
 
-Requires Node 24 and pnpm. Packages publish to GitHub Packages under `@interstellarforge` (see `.npmrc`; the token never goes in the repo).
+Requires Node 24 and pnpm. Packages publish to npmjs.com under `@interstellarforge` (MIT, with provenance); consumers need no token or `.npmrc` (see `docs/releasing.md`).
 
 ## Layout
 
 - `packages/`: published packages
 - `specs/`: framework-neutral contracts (accessibility, interaction)
 - `design/`: reference screens and prototype (not published)
+
+## License
+
+MIT, see [LICENSE](LICENSE).

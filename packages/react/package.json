@@ -1,6 +1,7 @@
 {
   "name": "@interstellarforge/matter-react",
   "version": "0.0.0",
+  "license": "MIT",
   "description": "Matter components for React 19 / Next.js. Styling comes from @interstellarforge/matter-css.",
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
     }
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -38,5 +41,8 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "@interstellarforge/matter-icons": "workspace:*"
   }
 }

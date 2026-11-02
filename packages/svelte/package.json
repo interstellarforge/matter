@@ -1,6 +1,7 @@
 {
   "name": "@interstellarforge/matter-svelte",
   "version": "0.0.0",
+  "license": "MIT",
   "description": "Matter components for Svelte 5 (Vite SPA and SvelteKit). Styling comes from @interstellarforge/matter-css.",
   "repository": {
     "type": "git",
@@ -24,7 +25,9 @@
     }
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "svelte-package -i src -o dist",
@@ -45,5 +48,8 @@
     "svelte": "catalog:",
     "svelte-check": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "@interstellarforge/matter-icons": "workspace:*"
   }
 }

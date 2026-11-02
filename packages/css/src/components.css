@@ -328,6 +328,12 @@
     cursor: not-allowed;
   }
 
+  /* Icon */
+  .m-icon {
+    display: block;
+    flex: none;
+  }
+
   /* Shared focus ring */
   :is(
     .m-button,
