@@ -21,3 +21,11 @@ export type { TooltipProps } from "./Tooltip.tsx";
 export { Tooltip } from "./Tooltip.tsx";
 export type { IconProps } from "./Icon.tsx";
 export { Icon } from "./Icon.tsx";
+export type {
+  AvatarProps,
+  BannerProps,
+  BannerTone,
+  EmptyStateProps,
+  ProgressBarProps,
+} from "./Feedback.tsx";
+export { Avatar, Banner, EmptyState, ProgressBar } from "./Feedback.tsx";

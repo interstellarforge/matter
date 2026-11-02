@@ -13,6 +13,7 @@
     "packages/*/src/**/*.tsx",
     "packages/*/vitest.config.ts",
     "scripts/**/*.ts",
+    "e2e/**/*.ts",
     "*.config.ts"
   ],
   "exclude": ["packages/svelte", "**/node_modules", "**/dist"]

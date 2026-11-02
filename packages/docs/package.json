@@ -1,0 +1,16 @@
+{
+  "name": "matter-docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.ts",
+    "start": "node src/serve.ts"
+  },
+  "devDependencies": {
+    "@interstellarforge/matter-css": "workspace:*",
+    "@interstellarforge/matter-tokens": "workspace:*",
+    "@types/node": "catalog:",
+    "marked": "catalog:"
+  }
+}

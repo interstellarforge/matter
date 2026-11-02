@@ -14,3 +14,5 @@ export interface MenuItem {
   label: string;
   disabled?: boolean;
 }
+
+export type BannerTone = "info" | "success" | "warning" | "danger";

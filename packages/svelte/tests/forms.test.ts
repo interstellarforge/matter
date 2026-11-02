@@ -4,11 +4,14 @@ import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 import {
+  Avatar,
+  Banner,
   Button,
   Checkbox,
   Icon,
   IconButton,
   Input,
+  ProgressBar,
   Select,
   Switch,
   Textarea,
@@ -81,6 +84,32 @@ describe("form controls", () => {
     expect(onCheckedChange).toHaveBeenNthCalledWith(1, true);
     expect(onCheckedChange).toHaveBeenNthCalledWith(2, false);
     expect(toggle.getAttribute("aria-checked")).toBe("false");
+  });
+
+  it("feedback components expose roles, initials and progress values", () => {
+    expect.hasAssertions();
+
+    render(Avatar, { name: "Ada Lovelace" });
+    render(Banner, { tone: "danger", children: textSnippet("Failed") });
+    render(Banner, { children: textSnippet("Saved") });
+    render(ProgressBar, { label: "Upload", value: 150 });
+    render(ProgressBar, { label: "Loading" });
+
+    expect(
+      screen.getByRole("img", { name: "Ada Lovelace" }).textContent.trim(),
+    ).toBe("AL");
+    expect(screen.getByRole("alert").textContent.trim()).toBe("Failed");
+    expect(screen.getByRole("status").textContent.trim()).toBe("Saved");
+    expect(
+      screen
+        .getByRole("progressbar", { name: "Upload" })
+        .style.getPropertyValue("--m-progress"),
+    ).toBe("100%");
+    expect(
+      screen
+        .getByRole("progressbar", { name: "Loading" })
+        .hasAttribute("aria-valuenow"),
+    ).toBe(false);
   });
 
   it("icon is decorative without a label and an image with one", () => {

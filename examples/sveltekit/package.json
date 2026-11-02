@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite dev --port 3102",
     "build": "vite build",
-    "start": "vite preview --port 3102"
+    "start": "vite preview --host 127.0.0.1 --port 3102"
   },
   "dependencies": {
     "@interstellarforge/matter-css": "workspace:*",

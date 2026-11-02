@@ -10,6 +10,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "test": "pnpm -r test && node scripts/check-deps.ts",
+    "test:e2e": "playwright test -c e2e/playwright.config.ts",
     "check:size": "node scripts/check-size.ts",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
@@ -23,6 +24,7 @@
     "@changesets/cli": "catalog:",
     "@eslint-community/eslint-plugin-eslint-comments": "catalog:",
     "@eslint/js": "catalog:",
+    "@playwright/test": "catalog:",
     "@tsconfig/bases": "catalog:",
     "@types/node": "catalog:",
     "@vitest/eslint-plugin": "catalog:",

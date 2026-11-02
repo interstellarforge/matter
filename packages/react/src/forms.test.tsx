@@ -6,12 +6,16 @@ import { describe, expect, it, vi } from "vitest";
 import { violations } from "./axe.ts";
 import {
   Badge,
+  Avatar,
+  Banner,
   Button,
   Card,
   Checkbox,
+  EmptyState,
   Icon,
   IconButton,
   Input,
+  ProgressBar,
   Select,
   Switch,
   Textarea,
@@ -120,6 +124,13 @@ describe("form controls", () => {
         <Input id="n" />
         <Checkbox>Accept</Checkbox>
         <Switch aria-label="Remote" />
+        <Input aria-label="Search" icon={search} />
+        <Avatar name="Ada Lovelace" />
+        <Banner tone="warning" title="Heads up">
+          Check this
+        </Banner>
+        <ProgressBar label="Upload" value={40} />
+        <EmptyState title="Nothing here">Add one</EmptyState>
         <Badge tone="success">Done</Badge>
         <Card padded>Content</Card>
         <Button variant="primary" type="submit">
@@ -129,6 +140,36 @@ describe("form controls", () => {
     );
 
     expect(await violations(container)).toStrictEqual([]);
+  });
+
+  it("feedback components expose roles, initials and progress values", () => {
+    expect.hasAssertions();
+
+    render(
+      <>
+        <Avatar name="Ada Lovelace" />
+        <Banner tone="danger">Failed</Banner>
+        <Banner>Saved</Banner>
+        <ProgressBar label="Upload" value={150} />
+        <ProgressBar label="Loading" />
+      </>,
+    );
+
+    expect(screen.getByRole("img", { name: "Ada Lovelace" }).textContent).toBe(
+      "AL",
+    );
+    expect(screen.getByRole("alert").textContent).toBe("Failed");
+    expect(screen.getByRole("status").textContent).toBe("Saved");
+    expect(
+      screen
+        .getByRole("progressbar", { name: "Upload" })
+        .style.getPropertyValue("--m-progress"),
+    ).toBe("100%");
+    expect(
+      screen
+        .getByRole("progressbar", { name: "Loading" })
+        .hasAttribute("aria-valuenow"),
+    ).toBe(false);
   });
 
   it("icon is decorative without a label and an image with one", () => {
