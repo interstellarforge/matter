@@ -15,6 +15,18 @@ describe("matter tokens", () => {
     expect(errors).toStrictEqual([]);
   });
 
+  it("lets professional inherit the deep-space palette and only differ in theme-level tokens", async () => {
+    expect.hasAssertions();
+
+    const { themes } = await loadTokens();
+    const deepSpace = themes.find(({ name }) => name === "deep-space");
+    const professional = themes.find(({ name }) => name === "professional");
+
+    expect(professional?.modes).toStrictEqual(deepSpace?.modes);
+    expect(professional?.base["control-radius"]).toBe("12px");
+    expect(deepSpace?.base["control-radius"]).toBe("8px");
+  });
+
   it("builds deterministic CSS with every theme, mode and density selector", async () => {
     expect.hasAssertions();
 

@@ -1,0 +1,54 @@
+# Releasing Matter
+
+Registry: GitHub Packages, scope `@interstellarforge` (ADR-010). Tooling: Changesets. All `@interstellarforge/matter-*` packages share one version (`fixed` group in `.changeset/config.json`), so the compatibility matrix has a single axis.
+
+## Versioning policy
+
+- **0.x (until v1):** a breaking change bumps the minor, features and fixes bump the patch. Every breaking change names its migration in the changeset text.
+- **From 1.0:** strict semver. Breaking = removed or renamed token, CSS variable, selector, attribute, export or component prop, or a changed default (theme, density, colour mode).
+- Token renames count as breaking; add the new name first and keep the old one as an alias for the deprecation window.
+- The initial release is `0.1.0`. No stability claims before 1.0.
+
+## Flow
+
+1. Every PR that changes published behaviour adds a changeset: `pnpm changeset` (use `--empty` for docs/CI-only changes).
+2. CI (`ci.yml`): format, typecheck, lint, build, test, size budget must pass.
+3. On merge to `main`, `release.yml` (changesets/action) opens or updates a "Version Packages" PR (versions + CHANGELOG).
+4. Merging that PR runs `pnpm release` (`pnpm build && changeset publish`) and publishes to GitHub Packages with the workflow `GITHUB_TOKEN`.
+5. Consumers pin the exact version (`.npmrc`: `@interstellarforge:registry=https://npm.pkg.github.com`; the read token is a build secret, never in the repo or image).
+
+## Release checklist (v0.1.0 and later)
+
+- [ ] Both pilots (Atlas, Pulsar) accepted for this version (v0.1.0 only)
+- [ ] `pnpm format && pnpm typecheck && pnpm lint && pnpm build && pnpm test && pnpm check:size` green
+- [ ] `pnpm pack --dry-run` in each package lists only `dist/`, `tokens/` (or `dist/`), `README.md`, `package.json`
+- [ ] Changelog states breaking changes and migrations; known limitations are listed
+- [ ] Compatibility matrix below updated
+- [ ] Docs and examples match the released API
+
+## Compatibility matrix
+
+Only combinations that were actually verified are listed.
+
+| Matter           | Node (build) | Browsers verified                                               | Consumers verified                                                          |
+| ---------------- | ------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 0.x (unreleased) | 24           | Chromium (Playwright): theme, colour mode and density switching | none yet (Atlas pilot, Pulsar pilot and the Next/SvelteKit demos are M3/M4) |
+
+Requirements the CSS places on browsers: cascade layers (`@layer`) and `:not()` with attribute selectors. Verify the supported browser versions against current MDN data before stating them here.
+
+## Rollback
+
+- A published version is never overwritten. Fix forward with a patch release.
+- A bad release: publish a fixed patch, then deprecate the bad version (`npm deprecate @interstellarforge/matter-tokens@<version> "<reason, use <fixed version>>"`). Delete a version only when it leaks a secret or breaks installs for everyone, using the GitHub Packages UI/API.
+- Consumers roll back by pinning the previous exact version.
+
+## Deprecation policy
+
+- Deprecated tokens, props and exports keep working for at least one minor release (0.x) or two minor releases / three months (from 1.0), whichever is longer.
+- A deprecation is announced in the changeset and the docs, and has a dated removal target.
+- Removal is a breaking change and follows the versioning policy above.
+
+## Open
+
+- Package `license` field is not set (decision needed before publishing).
+- Whether the read-only package token for consumers is an org-level secret or per-repo.

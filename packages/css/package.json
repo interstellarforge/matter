@@ -2,6 +2,11 @@
   "name": "@interstellarforge/matter-css",
   "version": "0.0.0",
   "description": "Matter CSS distribution: token stylesheet and the no-flash theme init script. Framework-agnostic.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interstellarforge/matter.git",
+    "directory": "packages/css"
+  },
   "type": "module",
   "files": [
     "dist"

@@ -2,6 +2,11 @@
   "name": "@interstellarforge/matter-tokens",
   "version": "0.0.0",
   "description": "Matter design tokens (DTCG source, CSS and TypeScript output). Framework-agnostic.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interstellarforge/matter.git",
+    "directory": "packages/tokens"
+  },
   "type": "module",
   "files": [
     "dist",

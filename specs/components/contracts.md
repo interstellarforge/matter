@@ -1,0 +1,29 @@
+# MVP component contracts
+
+Validated against the Atlas design contract (`docs/design/COMPONENT-MAP.md`: buttons, inputs, checkbox, chip, tabs, empty, banner, avatar) and the Pulsar mockups (filters, vacancy cards, switches). The 13 proposed components cover what both pilots need as primitives. Not in the MVP, tracked as follow-ups: **Avatar**, **EmptyState** (pattern in `specs/patterns/states.md`), **Banner**, **Skeleton**.
+
+Keyboard and ARIA details: `specs/interaction/keyboard.md`. Shared props: `conventions.md`.
+
+| Component | Markup (class, element) | Props | States | Notes |
+| --- | --- | --- | --- | --- |
+| Button | `button.m-button` | `variant` primary\|secondary\|ghost\|danger (default secondary), `size`, `type` (default `button`), `loading` | hover, focus-visible, active, disabled, loading (`aria-busy`, stays focusable via `aria-disabled`) | Text via children. |
+| IconButton | `button.m-button[data-icon-only]` | as Button + required `label` (accessible name) | as Button | Icon via children; `label` becomes `aria-label`. Square, size follows density. |
+| Input | `input.m-input` | native input props, `invalid` | hover, focus-visible, disabled, readonly, `aria-invalid` | Label is the consumer's `label` element or the Field wrapper (below). |
+| Textarea | `textarea.m-input.m-textarea` | native, `invalid` | as Input | Vertical resize only. |
+| Select | `select.m-input.m-select` | native, `invalid` | as Input | Native select (custom listbox is future). |
+| Checkbox | `label.m-checkbox > input[type=checkbox] + span` | `checked`/`defaultChecked`, `indeterminate`, `label` | checked, indeterminate, disabled, focus-visible, invalid | Label text via children. |
+| Switch | `button.m-switch[role=switch][aria-checked]` | `checked`/`defaultChecked`, `onCheckedChange`, `label` | on, off, disabled, focus-visible | Toggle on Space/Enter. Needs an accessible name. |
+| Badge | `span.m-badge[data-tone]` | `tone` neutral\|accent\|info\|success\|warning\|danger | none (static) | Status must also have text; never colour only. |
+| Card | `div.m-card` | `as` (element), `padded` | none (static) | Not clickable itself; use a link/button inside. |
+| Tabs | `div.m-tabs > [role=tablist] > button[role=tab] + [role=tabpanel]` | `value`/`defaultValue`, `onValueChange`, `items` (id, label, content), `label` | selected, focus-visible, disabled tab | Roving tabindex; arrows/Home/End; activation follows focus. |
+| Dialog | `dialog.m-dialog` | `open`, `onOpenChange`, `title` (required), `closeLabel` (required), children, `footer` | open, closing | Native `<dialog>.showModal()`: focus trap, Esc, inert background. Focus returns to the trigger. `aria-labelledby` set from `title`. |
+| Tooltip | `span.m-tooltip-wrap > trigger + span.m-tooltip[role=tooltip]` | `content`, `placement` (top only in MVP) | hidden, visible | Opens on hover and focus, closes on blur, mouse leave and Esc. Linked via `aria-describedby`. No collision handling in the MVP. |
+| Menu | `div.m-menu-wrap > button[aria-haspopup=menu] + [role=menu] > button[role=menuitem]` | `items` (id, label, disabled), `onSelect`, `triggerLabel` | closed, open, item focused/disabled | Arrow/Home/End/type-ahead, Esc returns focus to trigger. Closes on outside click. |
+
+## Field wrapper (not a component yet)
+
+Pattern for label + control + help + error: see `specs/patterns/forms.md`. A `Field` helper is a follow-up if both pilots repeat the same wiring.
+
+## Out of scope for the MVP
+
+Custom Select (listbox), Toast, Spinner/Skeleton, Avatar, Banner, Popover with collision handling, Table/DataTable.
