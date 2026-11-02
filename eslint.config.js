@@ -15,6 +15,7 @@ export default tseslint.config(
       "**/.next",
       "**/next-env.d.ts",
       "design",
+      "packages/docs/src/site.js",
     ],
   },
   js.configs.recommended,
