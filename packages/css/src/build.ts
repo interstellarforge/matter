@@ -19,6 +19,8 @@ const [tokens, components] = await Promise.all([
 await mkdir(distDir, { recursive: true });
 await Promise.all([
   writeFile(`${distDir}matter.css`, `${tokens}${components}`),
+  // For apps with a strict CSP (no inline scripts), e.g. Atlas: load this file with <script src>.
+  writeFile(`${distDir}theme-init.js`, `${themeInitScript}\n`),
   writeFile(
     `${distDir}index.js`,
     `export const themeInitScript = ${JSON.stringify(themeInitScript)};\n`,

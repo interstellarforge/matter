@@ -17,7 +17,8 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./matter.css": "./dist/matter.css"
+    "./matter.css": "./dist/matter.css",
+    "./theme-init.js": "./dist/theme-init.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
