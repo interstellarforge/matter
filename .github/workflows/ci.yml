@@ -20,9 +20,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm format
+      # dist of icons/tokens/css is needed by typecheck and lint
+      - run: pnpm build
       - run: pnpm typecheck
       - run: pnpm lint
-      - run: pnpm build
       - run: pnpm test
       - run: pnpm check:size
       - run: pnpm exec playwright install --with-deps chromium
