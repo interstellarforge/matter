@@ -1,0 +1,30 @@
+{
+  "name": "@interstellarforge/matter-tokens",
+  "version": "0.0.0",
+  "description": "Matter design tokens (DTCG source, CSS and TypeScript output). Framework-agnostic.",
+  "type": "module",
+  "files": [
+    "dist",
+    "tokens"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./css": "./dist/matter-tokens.css",
+    "./index.json": "./dist/tokens.index.json",
+    "./tokens/*": "./tokens/*"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "node src/build.ts",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "style-dictionary": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "control-radius": {
+    "$type": "dimension",
+    "$value": "{radius.sm}"
+  }
+}

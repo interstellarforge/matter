@@ -1,0 +1,34 @@
+{
+  "control-h": {
+    "$type": "dimension",
+    "$value": {
+      "value": 36,
+      "unit": "px"
+    }
+  },
+  "control-pad-x": {
+    "$type": "dimension",
+    "$value": {
+      "value": 14,
+      "unit": "px"
+    }
+  },
+  "control-gap": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "control-fs": {
+    "$type": "dimension",
+    "$value": "{fs.md}"
+  },
+  "row-h": {
+    "$type": "dimension",
+    "$value": {
+      "value": 48,
+      "unit": "px"
+    }
+  }
+}

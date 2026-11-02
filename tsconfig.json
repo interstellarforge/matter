@@ -1,0 +1,10 @@
+{
+  "extends": ["@tsconfig/bases/node24", "@tsconfig/bases/strictest"],
+  "compilerOptions": {
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true
+  },
+  "include": ["packages/*/src/**/*.ts", "scripts/**/*.ts", "*.config.ts"]
+}

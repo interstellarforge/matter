@@ -1,0 +1,29 @@
+packages:
+  - packages/*
+savePrefix: ""
+catalogMode: strict
+catalog:
+  "@eslint-community/eslint-plugin-eslint-comments": 4.5.0
+  "@eslint/js": 9.39.5
+  "@tsconfig/bases": 1.0.28
+  "@types/node": 24.19.2
+  "@vitest/eslint-plugin": 1.6.28
+  eslint: 9.39.5
+  eslint-plugin-simple-import-sort: 14.0.0
+  prettier: 3.9.10
+  style-dictionary: 5.7.1
+  typescript: 5.9.3
+  typescript-eslint: 8.72.1
+  vitest: 4.1.6
+minimumReleaseAgeExclude:
+  - "@typescript-eslint/eslint-plugin@8.72.1"
+  - "@typescript-eslint/parser@8.72.1"
+  - "@typescript-eslint/project-service@8.72.1"
+  - "@typescript-eslint/scope-manager@8.72.1"
+  - "@typescript-eslint/tsconfig-utils@8.72.1"
+  - "@typescript-eslint/type-utils@8.72.1"
+  - "@typescript-eslint/types@8.72.1"
+  - "@typescript-eslint/typescript-estree@8.72.1"
+  - "@typescript-eslint/utils@8.72.1"
+  - "@typescript-eslint/visitor-keys@8.72.1"
+  - typescript-eslint@8.72.1

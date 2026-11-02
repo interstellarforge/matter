@@ -1,0 +1,29 @@
+{
+  "name": "@interstellarforge/matter-css",
+  "version": "0.0.0",
+  "description": "Matter CSS distribution: token stylesheet and the no-flash theme init script. Framework-agnostic.",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./matter.css": "./dist/matter.css"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "node src/build.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@interstellarforge/matter-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "catalog:"
+  }
+}
