@@ -1,5 +1,11 @@
 # @interstellarforge/matter-icons
 
+## 0.2.1
+
+### Patch Changes
+
+- dcc049e: release check
+
 ## 0.2.0
 
 No changes in this release.

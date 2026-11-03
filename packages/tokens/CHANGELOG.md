@@ -1,5 +1,11 @@
 # @interstellarforge/matter-tokens
 
+## 0.2.1
+
+### Patch Changes
+
+- dcc049e: release check
+
 ## 0.2.0
 
 ### Minor Changes
