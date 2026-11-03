@@ -1,5 +1,13 @@
 # @interstellarforge/matter-react
 
+## 0.2.2
+
+### Patch Changes
+
+- 67f954c: release check
+- Updated dependencies [67f954c]
+  - @interstellarforge/matter-icons@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
