@@ -1,5 +1,11 @@
 # @interstellarforge/matter-icons
 
+## 0.2.2
+
+### Patch Changes
+
+- 67f954c: release check
+
 ## 0.2.1
 
 ### Patch Changes
