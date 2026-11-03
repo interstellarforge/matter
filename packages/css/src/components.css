@@ -91,6 +91,61 @@
   .m-input[aria-invalid="true"] {
     border-color: var(--m-danger);
   }
+  /* Native select: own chevron so padding matches Input; the picker is styled where base-select is supported. */
+  .m-select {
+    appearance: none;
+    padding-inline-end: calc(var(--m-control-pad-x) * 2 + 8px);
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--m-text-muted) 50%),
+      linear-gradient(135deg, var(--m-text-muted) 50%, transparent 50%);
+    background-position:
+      calc(100% - var(--m-control-pad-x) - 5px) 50%,
+      calc(100% - var(--m-control-pad-x)) 50%;
+    background-size:
+      5px 5px,
+      5px 5px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+  .m-select:disabled {
+    cursor: not-allowed;
+  }
+  @supports (appearance: base-select) {
+    .m-select,
+    .m-select::picker(select) {
+      appearance: base-select;
+    }
+    .m-select {
+      align-items: center;
+    }
+    .m-select::picker-icon {
+      display: none;
+    }
+    .m-select::picker(select) {
+      margin-block: var(--m-space-1);
+      padding: var(--m-space-1);
+      border: 1px solid var(--m-border);
+      border-radius: var(--m-radius-md);
+      background: var(--m-surface-raised);
+      box-shadow: var(--m-shadow-md);
+    }
+    .m-select option {
+      padding: var(--m-space-2) var(--m-control-pad-x);
+      border-radius: var(--m-radius-sm);
+      color: var(--m-text);
+    }
+    .m-select option:hover,
+    .m-select option:focus-visible {
+      background: var(--m-surface-hover);
+    }
+    .m-select option:checked {
+      background: var(--m-accent-soft);
+      color: var(--m-accent-soft-on);
+    }
+    .m-select option::checkmark {
+      display: none;
+    }
+  }
   .m-textarea {
     min-height: calc(var(--m-control-h) * 2.5);
     padding-block: var(--m-space-2);
@@ -350,7 +405,7 @@
 
   /* Dialog */
   .m-dialog {
-    max-inline-size: min(32rem, calc(100vw - 2rem));
+    inline-size: min(32rem, calc(100vw - 2rem));
     padding: 0;
     border: 1px solid var(--m-border);
     border-radius: var(--m-radius-lg);
@@ -366,22 +421,22 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--m-space-4);
-    padding: var(--m-space-4) var(--m-space-5);
-    border-bottom: 1px solid var(--m-border);
+    padding: var(--m-space-4) var(--m-space-4) 0 var(--m-space-5);
   }
   .m-dialog__title {
+    flex: 1;
     margin: 0;
     font-size: var(--m-fs-lg);
   }
   .m-dialog__body {
-    padding: var(--m-space-5);
+    padding: var(--m-space-4) var(--m-space-5);
+    color: var(--m-text-muted);
   }
   .m-dialog__footer {
     display: flex;
     justify-content: flex-end;
     gap: var(--m-space-2);
-    padding: var(--m-space-4) var(--m-space-5);
-    border-top: 1px solid var(--m-border);
+    padding: 0 var(--m-space-5) var(--m-space-5);
   }
 
   /* Tooltip */

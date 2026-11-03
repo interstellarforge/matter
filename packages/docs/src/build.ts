@@ -496,7 +496,7 @@ function shell(page: Page): string {
   const depth = page.path.split("/").length - 1;
   const root = depth === 0 ? "./" : "../".repeat(depth);
   const select = (name: string, values: string[]) =>
-    `<label>${name}<select class="m-input" data-switch="${name}">${values.map((v) => `<option>${v}</option>`).join("")}</select></label>`;
+    `<label>${name}<select class="m-input m-select" data-switch="${name}">${values.map((v) => `<option>${v}</option>`).join("")}</select></label>`;
   const side = nav
     .map(
       ([heading, items]) =>

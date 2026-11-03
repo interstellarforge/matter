@@ -266,7 +266,7 @@ h1 {
   font-size: var(--m-fs-xl);
   line-height: var(--m-lh-normal);
 }
-article h2 {
+article h2:not(.m-dialog__title) {
   margin: var(--m-space-10) 0 var(--m-space-3);
   padding-top: var(--m-space-5);
   border-top: 1px solid var(--m-border);
