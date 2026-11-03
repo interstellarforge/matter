@@ -48,6 +48,7 @@ const guideTitles: Record<string, string> = {
   "patterns/search-and-filter": "Search and filter",
   "resources/component-conventions": "Component conventions",
   "resources/releasing": "Releasing",
+  "resources/payload-adapter": "Payload admin theme",
   "resources/ai-agents": "Using Matter with AI agents",
   "resources/atlas-pilot": "Case study: Atlas migration",
 };
@@ -81,6 +82,12 @@ const guideSources = [
     "specs/components/conventions.md",
   ],
   ["Resources", "Resources", "resources/releasing", "docs/releasing.md"],
+  [
+    "Resources",
+    "Resources",
+    "resources/payload-adapter",
+    "docs/payload-adapter.md",
+  ],
   ["Resources", "Resources", "resources/ai-agents", "docs/agents-consumer.md"],
   ["Resources", "Resources", "resources/atlas-pilot", "docs/pilot-atlas.md"],
 ] as const;

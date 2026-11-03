@@ -1,0 +1,34 @@
+{
+  "name": "@interstellarforge/matter-payload",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "Matter theme for the Payload CMS admin panel: maps Matter tokens onto Payload's CSS variables. CSS only.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interstellarforge/matter.git",
+    "directory": "packages/payload"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./matter-payload.css": "./dist/matter-payload.css"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "node src/build.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@interstellarforge/matter-css": "workspace:*"
+  },
+  "devDependencies": {
+    "@interstellarforge/matter-tokens": "workspace:*",
+    "vitest": "catalog:"
+  }
+}
