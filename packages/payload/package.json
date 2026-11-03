@@ -1,6 +1,6 @@
 {
   "name": "@interstellarforge/matter-payload",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "description": "Matter theme for the Payload CMS admin panel: maps Matter tokens onto Payload's CSS variables. CSS only.",
   "repository": {
