@@ -12,9 +12,9 @@ const packages = readdirSync("packages").flatMap((dir) => {
   return manifest.private ? [] : [manifest];
 });
 
-type Packument = {
+interface Packument {
   versions?: Record<string, { dist?: { attestations?: unknown } }>;
-};
+}
 
 const check = async ({ name, version }: { name: string; version: string }) => {
   const response = await fetch(
