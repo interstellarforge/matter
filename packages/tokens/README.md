@@ -21,7 +21,7 @@ CSS custom property: `--m-<path>`; the leading `color` group is dropped. `color.
 
 Attributes on `<html>`:
 
-- `data-theme="deep-space|professional"` (default: `deep-space`)
+- `data-theme="deep-space|professional|pulsar"` (default: `deep-space`)
 - `data-color-mode="light|dark"` (default: OS preference; a theme without light mode uses its only mode)
 - `data-density="compact|comfortable|touch"` (default: `comfortable`; may be set on any element)
 

@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   const options: Record<string, string[]> = {
-    theme: ["deep-space", "professional"],
+    theme: ["deep-space", "professional", "pulsar"],
     "color-mode": ["system", "light", "dark"],
     density: ["comfortable", "compact", "touch"],
   };

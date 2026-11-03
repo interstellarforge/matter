@@ -16,7 +16,7 @@ Verified against the two consumer apps (Payload `3.92.1` in boven-verwachting, `
 
 ### Attribute clash (the main design problem)
 
-Matter uses `data-theme` for the product theme (`deep-space`, `professional`) and `data-color-mode` for light and dark. Payload uses `data-theme` for light and dark. In the adapter the roles swap: Payload's `data-theme` drives the colour mode, and the Matter product theme moves to `data-matter-theme`.
+Matter uses `data-theme` for the product theme (`deep-space`, `professional`, `pulsar`) and `data-color-mode` for light and dark. Payload uses `data-theme` for light and dark. In the adapter the roles swap: Payload's `data-theme` drives the colour mode, and the Matter product theme moves to `data-matter-theme`.
 
 ## Adapter architecture
 

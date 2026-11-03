@@ -1,7 +1,7 @@
 /**
  * Payload (3.90-3.92) uses `html[data-theme="light|dark"]` for its colour mode and declares its
  * defaults in `@layer payload-default, payload`. Matter uses `data-theme` for the product theme
- * (deep-space | professional) and `data-color-mode` for light/dark. Inside Payload the roles swap:
+ * (deep-space | professional | pulsar) and `data-color-mode` for light/dark. Inside Payload the roles swap:
  * Payload's `data-theme` drives the colour mode and the Matter product theme moves to
  * `data-matter-theme`.
  */

@@ -1,0 +1,7 @@
+{
+  "$extensions": { "matter.extends": "deep-space" },
+  "control-radius": {
+    "$type": "dimension",
+    "$value": "{radius.md}"
+  }
+}

@@ -11,6 +11,7 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test && node scripts/check-deps.ts",
     "test:e2e": "playwright test -c e2e/playwright.config.ts",
+    "docs:serve": "pnpm --filter matter-docs... build && pnpm --filter matter-docs start",
     "check:size": "node scripts/check-size.ts",
     "format": "prettier --check .",
     "format:write": "prettier --write .",

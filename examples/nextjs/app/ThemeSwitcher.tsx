@@ -7,7 +7,7 @@ const keys = ["theme", "color-mode", "density"] as const;
 type Key = (typeof keys)[number];
 
 const options: Record<Key, string[]> = {
-  theme: ["deep-space", "professional"],
+  theme: ["deep-space", "professional", "pulsar"],
   "color-mode": ["system", "light", "dark"],
   density: ["comfortable", "compact", "touch"],
 };

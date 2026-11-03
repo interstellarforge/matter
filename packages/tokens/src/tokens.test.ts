@@ -27,6 +27,17 @@ describe("matter tokens", () => {
     expect(deepSpace?.base["control-radius"]).toBe("8px");
   });
 
+  it("lets pulsar override only the light palette and fall back to deep-space dark", async () => {
+    expect.hasAssertions();
+
+    const { themes } = await loadTokens();
+    const deepSpace = themes.find(({ name }) => name === "deep-space");
+    const pulsar = themes.find(({ name }) => name === "pulsar");
+
+    expect(pulsar?.modes.dark).toStrictEqual(deepSpace?.modes.dark);
+    expect(pulsar?.modes.light?.["primary"]).toBe("#613ce3");
+  });
+
   it("builds deterministic CSS with every theme, mode and density selector", async () => {
     expect.hasAssertions();
 
@@ -40,6 +51,7 @@ describe("matter tokens", () => {
       ':root:not([data-theme])[data-color-mode="dark"]',
       ':root[data-theme="deep-space"][data-color-mode="dark"]',
       ':root[data-theme="professional"][data-color-mode="dark"]',
+      ':root[data-theme="pulsar"][data-color-mode="dark"]',
       '[data-density="compact"]',
       '[data-density="touch"]',
       "@media (prefers-color-scheme: dark)",

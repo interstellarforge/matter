@@ -63,8 +63,9 @@ async function names(directory: string): Promise<string[]> {
 
 /**
  * A theme may inherit the colour modes of another theme via
- * `"$extensions": { "matter.extends": "<theme>" }` in its theme.json; its own
- * mode files then only override. Theme-level tokens (theme.json) are not inherited.
+ * `"$extensions": { "matter.extends": "<theme>" }` in its theme.json. A mode the
+ * theme defines itself replaces the parent's (and must be complete); a mode it
+ * lacks falls back to the parent's. Theme-level tokens (theme.json) are not inherited.
  */
 async function parentTheme(themeFile: string): Promise<string | undefined> {
   const json = JSON.parse(await readFile(themeFile, "utf8")) as {
@@ -83,11 +84,11 @@ export async function loadTokens(): Promise<TokenSet> {
     const parent = await parentTheme(themeFile);
     const modes: ThemeTokens["modes"] = {};
     for (const mode of colorModes) {
+      const own = `${dir}${mode}.json`;
       const files = [
-        ...(parent === undefined
-          ? []
-          : [`${tokensDir}themes/${parent}/${mode}.json`]),
-        `${dir}${mode}.json`,
+        parent === undefined || existsSync(own)
+          ? own
+          : `${tokensDir}themes/${parent}/${mode}.json`,
       ].filter((file) => existsSync(file));
       if (files.length > 0) {
         modes[mode] = await resolve([core, themeFile, ...files], files);
