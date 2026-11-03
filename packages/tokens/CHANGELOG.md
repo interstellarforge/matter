@@ -1,5 +1,11 @@
 # @interstellarforge/matter-tokens
 
+## 0.2.0
+
+### Minor Changes
+
+- ab77617: Add the light-first `pulsar` theme (purple/white). Its dark mode falls back to Deep Space dark.
+
 ## 0.1.0
 
 ### Minor Changes
