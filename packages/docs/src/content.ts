@@ -27,6 +27,16 @@ export interface ComponentDoc {
 
 const icon = (path: string) =>
   `<svg class="m-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+const editorIcon = (path: string) => icon(path);
+const editorButton = (
+  cmd: string,
+  label: string,
+  path: string,
+  toggle = true,
+) =>
+  `<button class="m-button" type="button" data-size="sm" data-icon-only data-cmd="${cmd}" aria-label="${label}"${toggle ? ' aria-pressed="false"' : ""}>${editorIcon(path)}</button>`;
+const editorDemo = () =>
+  `<div class="m-editor" data-demo="editor"><div class="m-toolbar" role="toolbar" aria-label="Formatting"><select class="m-input m-select" data-size="sm" aria-label="Text style" data-block style="inline-size:auto"><option value="p">Paragraph</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option></select><span class="m-toolbar__sep" role="separator"></span><div class="m-button-group" role="group" aria-label="Text">${editorButton("bold", "Bold", '<path d="M7 5h6a3.5 3.5 0 0 1 0 7H7zM7 12h7a3.5 3.5 0 0 1 0 7H7z"/>')}${editorButton("italic", "Italic", '<path d="M19 4h-9M14 20H5M15 4 9 20"/>')}${editorButton("underline", "Underline", '<path d="M7 4v7a5 5 0 0 0 10 0V4M5 20h14"/>')}</div><div class="m-button-group" role="group" aria-label="Lists">${editorButton("insertUnorderedList", "Bulleted list", '<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>')}${editorButton("insertOrderedList", "Numbered list", '<path d="M11 6h9M11 12h9M11 18h9M4 5l1.5-1v4M3.5 14.5a1.5 1.5 0 1 1 2.5 1.2L3.5 18H6.5"/>')}</div>${editorButton("quote", "Quote", '<path d="M9 7H6a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h3v2a2 2 0 0 1-2 2M19 7h-3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h3v2a2 2 0 0 1-2 2"/>')}${editorButton("link", "Link", '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.7l1-1"/>', false)}<span class="m-toolbar__sep" role="separator"></span>${editorButton("undo", "Undo", '<path d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>', false)}${editorButton("redo", "Redo", '<path d="m15 14 5-5-5-5M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>', false)}</div><div class="m-editor__content m-prose" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Body" data-empty data-placeholder="Write something"></div><dialog class="m-dialog" aria-labelledby="link-title" data-link-dialog><form method="dialog"><div class="m-dialog__header"><h2 id="link-title" class="m-dialog__title">Insert link</h2></div><div class="m-dialog__body"><label for="link-url" style="display:block;margin-block-end:var(--m-space-2)">URL</label><input id="link-url" class="m-input" type="url" placeholder="https://" required data-link-url></div><div class="m-dialog__footer"><button class="m-button" data-variant="ghost" type="button" data-link-cancel>Cancel</button><button class="m-button" data-variant="primary" type="submit">Insert</button></div></form></dialog></div>`;
 const searchIcon = icon(
   '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
 );
@@ -1490,10 +1500,150 @@ export const components: ComponentDoc[] = [
     ],
   },
   {
+    slug: "rich-text-editor",
+    name: "Rich text editor",
+    description:
+      "Surface, toolbar and typography for rich text. Bring your own editor engine.",
+    status: "beta",
+    useWhen: [
+      "Wrapping Lexical, Tiptap, ProseMirror or a plain contenteditable so it looks like the other fields.",
+      "Showing stored rich text with Matter typography (Prose), without an editor.",
+    ],
+    dontUseWhen: [
+      "Plain multi-line input. Use Textarea.",
+      "You need an editor engine. Matter ships the look and the toolbar building blocks, not document state, commands or serialisation.",
+    ],
+    examples: [
+      {
+        title: "Editor (live demo)",
+        html: editorDemo(),
+        react: `import { bold, italic, listOrdered, list, undo, redo } from "@interstellarforge/matter-icons";
+
+<EditorFrame
+  invalid={Boolean(error)}
+  disabled={disabled}
+  toolbar={
+    <Toolbar label="Formatting">
+      <Select aria-label="Text style" value={block} onChange={setBlock}>
+        <option value="p">Paragraph</option>
+        <option value="h2">Heading 2</option>
+        <option value="h3">Heading 3</option>
+      </Select>
+      <ButtonGroup label="Text">
+        <IconButton label="Bold" size="sm" aria-pressed={isBold} onClick={toggleBold}>
+          <Icon icon={bold} />
+        </IconButton>
+        <IconButton label="Italic" size="sm" aria-pressed={isItalic} onClick={toggleItalic}>
+          <Icon icon={italic} />
+        </IconButton>
+      </ButtonGroup>
+      <IconButton label="Undo" size="sm" onClick={undo} disabled={!canUndo}>
+        <Icon icon={undoIcon} />
+      </IconButton>
+    </Toolbar>
+  }
+>
+  {/* Your engine's editable element. */}
+  <YourEditable
+    className="m-editor__content m-prose"
+    role="textbox"
+    aria-multiline="true"
+    aria-label="Body"
+    data-empty={isEmpty ? "" : undefined}
+    data-placeholder="Write something"
+  />
+</EditorFrame>`,
+        svelte: `<EditorFrame invalid={Boolean(error)} {disabled}>
+  {#snippet toolbar()}
+    <Toolbar label="Formatting">
+      <ButtonGroup label="Text">
+        <IconButton label="Bold" size="sm" aria-pressed={isBold} onclick={toggleBold}>
+          <Icon icon={bold} />
+        </IconButton>
+        <IconButton label="Italic" size="sm" aria-pressed={isItalic} onclick={toggleItalic}>
+          <Icon icon={italic} />
+        </IconButton>
+      </ButtonGroup>
+    </Toolbar>
+  {/snippet}
+  <YourEditable
+    class="m-editor__content m-prose"
+    role="textbox"
+    aria-multiline="true"
+    aria-label="Body"
+    data-empty={isEmpty ? "" : undefined}
+    data-placeholder="Write something"
+  />
+</EditorFrame>`,
+      },
+      {
+        title: "Invalid and disabled",
+        html: `<div style="display:grid;gap:var(--m-space-3)"><div class="m-editor" data-invalid><div class="m-editor__content m-prose" role="textbox" aria-multiline="true" aria-label="Description" aria-invalid="true">Too short.</div></div><div class="m-editor" data-disabled><div class="m-editor__content m-prose" role="textbox" aria-multiline="true" aria-label="Notes" aria-disabled="true">Read-only content.</div></div></div>`,
+        react: `<EditorFrame invalid>...</EditorFrame>
+<EditorFrame disabled>...</EditorFrame>`,
+        svelte: `<EditorFrame invalid>...</EditorFrame>
+<EditorFrame disabled>...</EditorFrame>`,
+      },
+      {
+        title: "Prose (display only)",
+        html: `<div class="m-prose"><h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><p>Body text with a <a href="#">link</a>, <strong>bold</strong>, <em>italic</em> and <code>inline code</code>.</p><ul><li>Bullet one</li><li>Bullet two</li></ul><ol><li>First</li><li>Second</li></ol><blockquote>A quotation.</blockquote><pre><code>const matter = true;</code></pre></div>`,
+        react: `<Prose dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />`,
+        svelte: `<Prose>{@html sanitizedHtml}</Prose>`,
+      },
+    ],
+    configurations: [
+      {
+        title: "What Matter does and does not do",
+        body: "Matter provides `EditorFrame` (the surface), `Toolbar` (role, keyboard, layout) and `Prose` (typography). Your engine owns the document, the commands and the active-format state; you pass that state in as `aria-pressed`, `disabled` and `invalid`.",
+      },
+      {
+        title: "Placeholder and empty state",
+        body: "Set `data-empty` and `data-placeholder` on the editable element (`.m-editor__content`) while the document is empty, and remove `data-empty` as soon as it has content. Matter draws the placeholder with CSS; it never touches the content.",
+      },
+      {
+        title: "Typography inside the editor",
+        body: "Add `m-prose` next to `m-editor__content` so what people type looks the same as what you later render with `Prose`.",
+      },
+      {
+        title: "Toolbar contents",
+        body: "Use `IconButton` (size `sm`) for commands, `ButtonGroup` to group related toggles, a `Select` for text style and a `Menu` for overflow. Toggle commands (bold, italic, lists) are buttons with `aria-pressed`; one-shot commands (undo, redo) are plain buttons that become `disabled` when unavailable.",
+      },
+      {
+        title: "Wiring an engine",
+        body: "Lexical: render `ContentEditable` with the `m-editor__content` class and read format state in an update listener. Tiptap: pass `editorProps.attributes.class` and drive `aria-pressed` from `editor.isActive()`. Plain `contenteditable`: see the live demo, which uses `document.execCommand` only to keep the demo small.",
+      },
+      {
+        title: "States",
+        body: "Focus is drawn on the whole frame (`:focus-within`), so the toolbar and editor read as one field. `invalid` turns the border to the danger colour; pair it with an error message via `FormField`. `disabled` blocks pointer input on the content.",
+      },
+      {
+        title: "Theme, colour mode and density",
+        body: "Everything uses semantic tokens, so light, dark and the density profiles apply automatically. Switch them in the header to try.",
+      },
+    ],
+    accessibility: [
+      "`role=toolbar` named by `label`. One tab stop for the buttons; `←` `→` move (wrapping), `Home` and `End` jump to the ends. A `Select` in the toolbar keeps its own tab stop so its arrow keys keep working.",
+      "Toggle buttons expose state with `aria-pressed`. Icon-only buttons need a `label`.",
+      "The editable element is a named multiline `textbox`; mark it `aria-invalid` when invalid.",
+      "Keep the placeholder as a hint only: give the editor a real label via `aria-label` or `FormField`.",
+    ],
+    props: [
+      ["Toolbar label", "string", "", "Accessible name (required)."],
+      ["EditorFrame toolbar", "node | snippet", "", "Usually a `Toolbar`."],
+      [
+        "EditorFrame invalid / disabled",
+        "boolean",
+        "false",
+        "Border and background states.",
+      ],
+      ["Prose", "node", "", "Wrapper that styles rich text content."],
+    ],
+  },
+  {
     slug: "icon",
     name: "Icon",
     description:
-      "One of 52 stroke icons, drawn on a 24px grid in the current text colour.",
+      "One of 60 stroke icons, drawn on a 24px grid in the current text colour.",
     status: "stable",
     useWhen: ["Reinforcing a label or naming an icon-only control."],
     dontUseWhen: ["Decoration that adds no meaning."],

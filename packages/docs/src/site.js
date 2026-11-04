@@ -201,3 +201,99 @@ document.addEventListener("keydown", (event) => {
     list.hidden = true;
   }
 });
+
+// Rich text editor demo: contenteditable + execCommand, only to keep the demo small.
+for (const editor of $$('[data-demo="editor"]')) {
+  const content = $(".m-editor__content", editor);
+  const blockSelect = $("[data-block]", editor);
+  const buttons = $$("[data-cmd]", editor);
+  const currentBlock = () =>
+    String(document.queryCommandValue("formatBlock")).toLowerCase();
+  const sync = () => {
+    const empty =
+      !content.textContent.trim() && !content.querySelector("li, blockquote");
+    content.toggleAttribute("data-empty", empty);
+    for (const button of buttons) {
+      const cmd = button.dataset.cmd;
+      if (cmd === "quote") {
+        button.setAttribute("aria-pressed", String(currentBlock() === "blockquote"));
+      } else if (button.hasAttribute("aria-pressed")) {
+        button.setAttribute("aria-pressed", String(document.queryCommandState(cmd)));
+      } else if (cmd === "undo" || cmd === "redo") {
+        button.disabled = !document.queryCommandEnabled(cmd);
+      }
+    }
+    const block = currentBlock();
+    blockSelect.value = ["h2", "h3"].includes(block) ? block : "p";
+  };
+  const linkDialog = $("[data-link-dialog]", editor);
+  const linkInput = $("[data-link-url]", linkDialog);
+  let saved = null;
+  $("[data-link-cancel]", linkDialog).addEventListener("click", () =>
+    linkDialog.close(),
+  );
+  // Focus returns to the toolbar button on close; restore the selection before inserting.
+  $("form", linkDialog).addEventListener("submit", () => {
+    // The page is inert while the modal is open, so close it before focusing the editor.
+    linkDialog.close();
+    content.focus();
+    if (saved) {
+      getSelection().removeAllRanges();
+      getSelection().addRange(saved);
+    }
+    run("createLink", linkInput.value);
+  });
+  const run = (cmd, value) => {
+    content.focus();
+    document.execCommand(cmd, false, value);
+    sync();
+  };
+  for (const button of buttons) {
+    // Keep the text selection while the button is pressed.
+    button.addEventListener("mousedown", (event) => event.preventDefault());
+    button.addEventListener("click", () => {
+      const cmd = button.dataset.cmd;
+      if (cmd === "quote") {
+        run("formatBlock", currentBlock() === "blockquote" ? "p" : "blockquote");
+      } else if (cmd === "link") {
+        const selection = getSelection();
+        saved = selection.rangeCount ? selection.getRangeAt(0).cloneRange() : null;
+        linkInput.value = "";
+        linkDialog.showModal();
+      } else {
+        run(cmd);
+      }
+    });
+  }
+  blockSelect.addEventListener("change", () => run("formatBlock", blockSelect.value));
+  content.addEventListener("input", sync);
+  content.addEventListener("keyup", sync);
+  content.addEventListener("mouseup", sync);
+  content.addEventListener("focus", sync);
+  // One tab stop for the buttons; arrows, Home and End move between them.
+  const toolbar = $('[role="toolbar"]', editor);
+  const items = () => $$("button:not(:disabled)", toolbar);
+  const rove = (target) => {
+    for (const item of $$("button", toolbar)) item.tabIndex = -1;
+    target.tabIndex = 0;
+  };
+  rove(buttons[0]);
+  toolbar.addEventListener("focusin", (event) => {
+    if (event.target.matches("button")) rove(event.target);
+  });
+  toolbar.addEventListener("keydown", (event) => {
+    const list = items();
+    const index = list.indexOf(document.activeElement);
+    if (index < 0) return;
+    const next = {
+      ArrowRight: (index + 1) % list.length,
+      ArrowLeft: (index - 1 + list.length) % list.length,
+      Home: 0,
+      End: list.length - 1,
+    }[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    list[next].focus();
+  });
+  sync();
+}

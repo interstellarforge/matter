@@ -7,6 +7,8 @@ import { violations } from "./axe.ts";
 import {
   Breadcrumb,
   ButtonGroup,
+  EditorFrame,
+  Toolbar,
   Combobox,
   DataTable,
   DatePicker,
@@ -507,5 +509,43 @@ describe("split button", () => {
     expect(screen.getByRole("group", { name: "View" }).children).toHaveLength(
       2,
     );
+  });
+
+  it("toolbar has one tab stop and arrow keys move focus", async () => {
+    expect.hasAssertions();
+
+    const user = userEvent.setup();
+    const { container } = render(
+      <EditorFrame
+        invalid
+        toolbar={
+          <Toolbar label="Formatting">
+            <button type="button" className="m-button" aria-pressed="true">
+              Bold
+            </button>
+            <button type="button" className="m-button" aria-pressed="false">
+              Italic
+            </button>
+          </Toolbar>
+        }
+      >
+        <div
+          className="m-editor__content"
+          contentEditable
+          role="textbox"
+          aria-label="Body"
+        />
+      </EditorFrame>,
+    );
+
+    const [bold, italic] = screen.getAllByRole("button");
+    await user.tab();
+    expect(document.activeElement).toBe(bold);
+    await user.keyboard("{ArrowRight}");
+    expect(document.activeElement).toBe(italic);
+    expect(bold?.tabIndex).toBe(-1);
+    await user.keyboard("{Home}");
+    expect(document.activeElement).toBe(bold);
+    expect(await violations(container)).toStrictEqual([]);
   });
 });

@@ -42,6 +42,8 @@ export type {
 export { Avatar, Banner, EmptyState, ProgressBar } from "./Feedback.tsx";
 export type { InputProps, SelectProps, TextareaProps } from "./Fields.tsx";
 export { Input, Select, Textarea } from "./Fields.tsx";
+export type { EditorFrameProps, ToolbarProps } from "./Editor.tsx";
+export { EditorFrame, Prose, Toolbar } from "./Editor.tsx";
 export type { FileUploadProps, UploadFile } from "./FileUpload.tsx";
 export { FileUpload } from "./FileUpload.tsx";
 export type { FieldControlProps, FormFieldProps } from "./FormField.tsx";

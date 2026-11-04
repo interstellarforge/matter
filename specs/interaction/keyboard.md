@@ -22,6 +22,7 @@ Source of truth for React and Svelte implementations (ADR-005). Based on the WAI
 | Toast              | `role=status` / `alert`                              | Timer pauses on hover and focus; dismiss and action are buttons. Never the only place for essential information.                                                      |
 | Drawer             | `dialog` (modal)                                     | As Dialog.                                                                                                                                                            |
 | File upload        | `input[type=file]` in a label                        | `Tab` focuses the area, `Enter`/`Space` opens the file picker.                                                                                                        |
+| Toolbar            | `toolbar`                                            | One tab stop (roving `tabindex`). `←→` move (wraps), `Home`/`End`. Toggle buttons use `aria-pressed`; editor content is a `textbox` outside the toolbar.                |
 | Badge, Card        | static                                               | No keyboard behaviour. A clickable Card uses a real link or button, not a click handler on a `div`.                                                                   |
 
 ## Common rules

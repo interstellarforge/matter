@@ -15,6 +15,7 @@ import {
 } from "../src/index.ts";
 import { violations } from "./axe.ts";
 import FieldHarness from "./FieldHarness.svelte";
+import ToolbarHarness from "./ToolbarHarness.svelte";
 import SplitHarness from "./SplitHarness.svelte";
 import TableHarness from "./TableHarness.svelte";
 
@@ -307,5 +308,22 @@ describe("split button", () => {
     expect(screen.getByRole("group", { name: "View" })).toBeInstanceOf(
       HTMLElement,
     );
+  });
+
+  it("toolbar has one tab stop and arrow keys move focus", async () => {
+    expect.hasAssertions();
+
+    const user = userEvent.setup();
+    const { container } = render(ToolbarHarness);
+
+    const [bold, italic] = screen.getAllByRole("button");
+    await user.tab();
+    expect(document.activeElement).toBe(bold);
+    await user.keyboard("{ArrowRight}");
+    expect(document.activeElement).toBe(italic);
+    expect(bold?.tabIndex).toBe(-1);
+    await user.keyboard("{Home}");
+    expect(document.activeElement).toBe(bold);
+    expect(await violations(container)).toStrictEqual([]);
   });
 });

@@ -718,3 +718,8 @@ a.m-button[data-variant="primary"]:hover {
 .tile .thumb .m-calendar {
   display: none;
 }
+
+/* The editor frame draws the focus ring; the editable inside must not add a second one. */
+.m-editor__content:focus-visible {
+  outline: none;
+}
