@@ -1,5 +1,13 @@
 # @interstellarforge/matter-payload
 
+## 0.2.3
+
+### Patch Changes
+
+- 92de5ad: package change
+- Updated dependencies [92de5ad]
+  - @interstellarforge/matter-css@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@interstellarforge/matter-react",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "description": "Matter components for React 19 / Next.js. Styling comes from @interstellarforge/matter-css.",
   "repository": {
