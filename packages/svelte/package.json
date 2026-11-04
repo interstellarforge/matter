@@ -1,6 +1,6 @@
 {
   "name": "@interstellarforge/matter-svelte",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "description": "Matter components for Svelte 5 (Vite SPA and SvelteKit). Styling comes from @interstellarforge/matter-css.",
   "repository": {
