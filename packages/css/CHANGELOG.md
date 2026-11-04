@@ -1,5 +1,17 @@
 # @interstellarforge/matter-css
 
+## 0.4.0
+
+### Minor Changes
+
+- 2ddefe0: Add rich text editor component
+- 2ddefe0: Add rich text editor building blocks: Toolbar (roving tabindex), EditorFrame (input-like surface with invalid and disabled states, placeholder via `data-empty`) and Prose (typography for display). The editor engine stays with the consumer. Add icons bold, italic, underline, list-ordered, quote, code, undo and redo.
+
+### Patch Changes
+
+- a49612c: prettier formatting
+- @interstellarforge/matter-tokens@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
