@@ -216,9 +216,15 @@ for (const editor of $$('[data-demo="editor"]')) {
     for (const button of buttons) {
       const cmd = button.dataset.cmd;
       if (cmd === "quote") {
-        button.setAttribute("aria-pressed", String(currentBlock() === "blockquote"));
+        button.setAttribute(
+          "aria-pressed",
+          String(currentBlock() === "blockquote"),
+        );
       } else if (button.hasAttribute("aria-pressed")) {
-        button.setAttribute("aria-pressed", String(document.queryCommandState(cmd)));
+        button.setAttribute(
+          "aria-pressed",
+          String(document.queryCommandState(cmd)),
+        );
       } else if (cmd === "undo" || cmd === "redo") {
         button.disabled = !document.queryCommandEnabled(cmd);
       }
@@ -254,10 +260,15 @@ for (const editor of $$('[data-demo="editor"]')) {
     button.addEventListener("click", () => {
       const cmd = button.dataset.cmd;
       if (cmd === "quote") {
-        run("formatBlock", currentBlock() === "blockquote" ? "p" : "blockquote");
+        run(
+          "formatBlock",
+          currentBlock() === "blockquote" ? "p" : "blockquote",
+        );
       } else if (cmd === "link") {
         const selection = getSelection();
-        saved = selection.rangeCount ? selection.getRangeAt(0).cloneRange() : null;
+        saved = selection.rangeCount
+          ? selection.getRangeAt(0).cloneRange()
+          : null;
         linkInput.value = "";
         linkDialog.showModal();
       } else {
@@ -265,7 +276,9 @@ for (const editor of $$('[data-demo="editor"]')) {
       }
     });
   }
-  blockSelect.addEventListener("change", () => run("formatBlock", blockSelect.value));
+  blockSelect.addEventListener("change", () =>
+    run("formatBlock", blockSelect.value),
+  );
   content.addEventListener("input", sync);
   content.addEventListener("keyup", sync);
   content.addEventListener("mouseup", sync);

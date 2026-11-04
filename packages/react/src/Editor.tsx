@@ -1,6 +1,11 @@
 "use client";
 
-import { type ComponentProps, type KeyboardEvent, useEffect, useRef } from "react";
+import {
+  type ComponentProps,
+  type KeyboardEvent,
+  useEffect,
+  useRef,
+} from "react";
 
 import { cx } from "./cx.ts";
 
@@ -12,12 +17,19 @@ export interface ToolbarProps extends ComponentProps<"div"> {
 }
 
 /** Toolbar with one tab stop; `←→`, `Home` and `End` move between its buttons. */
-export function Toolbar({ label, className, onKeyDown, ...rest }: ToolbarProps) {
+export function Toolbar({
+  label,
+  className,
+  onKeyDown,
+  ...rest
+}: ToolbarProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   // Roving tabindex, re-applied each render because consumers add and remove buttons.
   useEffect(() => {
-    const items = [...(ref.current?.querySelectorAll<HTMLElement>(ITEMS) ?? [])];
+    const items = [
+      ...(ref.current?.querySelectorAll<HTMLElement>(ITEMS) ?? []),
+    ];
     const active = items.find((el) => el.tabIndex === 0) ?? items[0];
     for (const el of items) el.tabIndex = el === active ? 0 : -1;
   });
@@ -54,7 +66,10 @@ export function Toolbar({ label, className, onKeyDown, ...rest }: ToolbarProps) 
   );
 }
 
-export interface EditorFrameProps extends Omit<ComponentProps<"div">, "children"> {
+export interface EditorFrameProps extends Omit<
+  ComponentProps<"div">,
+  "children"
+> {
   /** `Toolbar` with its buttons. */
   toolbar?: React.ReactNode;
   /** The consumer's editor engine (Lexical, Tiptap, ...). Give its editable `className="m-editor__content"`. */
