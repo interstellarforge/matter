@@ -684,3 +684,37 @@ a.m-button[data-variant="primary"]:hover {
     display: none;
   }
 }
+
+/* Links inside component demos keep the component's own colours, not the page link style. */
+.tile .thumb [data-link] {
+  color: var(--m-accent);
+  text-decoration: underline;
+}
+.tile .thumb .m-sidebar {
+  inline-size: 100%;
+  max-inline-size: 14rem;
+  border: 0;
+  background: transparent;
+}
+.stage .m-sidebar__link {
+  color: var(--m-text);
+  text-decoration: none;
+}
+.stage .m-sidebar__link[aria-current="page"] {
+  color: var(--m-accent-soft-on);
+}
+.stage .m-breadcrumb a {
+  text-decoration: none;
+}
+.stage .m-breadcrumb a:hover {
+  text-decoration: underline;
+}
+.stage .m-calendar th,
+.stage .m-calendar td {
+  padding: 1px;
+  border: 0;
+  background: transparent;
+}
+.tile .thumb .m-calendar {
+  display: none;
+}

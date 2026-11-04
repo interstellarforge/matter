@@ -6,7 +6,7 @@ import { Icon } from "./Icon.tsx";
 
 interface FieldProps {
   /** Sets `aria-invalid` and the error border. */
-  invalid?: boolean;
+  invalid?: boolean | undefined;
 }
 
 export interface InputProps extends ComponentProps<"input">, FieldProps {

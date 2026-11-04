@@ -49,3 +49,20 @@ export interface IconButtonProps extends Omit<ButtonProps, "aria-label"> {
 export function IconButton({ label, ...rest }: IconButtonProps) {
   return <Button {...rest} aria-label={label} data-icon-only="" />;
 }
+
+export interface ButtonGroupProps extends ComponentProps<"div"> {
+  /** Accessible name of the group (required). */
+  label: string;
+}
+
+/** Joins buttons into one segmented control: shared radius, one border between parts. */
+export function ButtonGroup({ label, className, ...rest }: ButtonGroupProps) {
+  return (
+    <div
+      {...rest}
+      role="group"
+      aria-label={label}
+      className={cx("m-button-group", className)}
+    />
+  );
+}

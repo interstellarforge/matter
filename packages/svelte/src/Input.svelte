@@ -7,7 +7,7 @@
   interface Props extends Omit<HTMLInputAttributes, "value"> {
     value?: string;
     /** Sets `aria-invalid` and the error border. */
-    invalid?: boolean;
+    invalid?: boolean | undefined;
     /** Decorative leading icon, e.g. `search`. The input still needs its own accessible name. */
     icon?: IconDefinition;
   }

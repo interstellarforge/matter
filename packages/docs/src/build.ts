@@ -215,6 +215,10 @@ for (const doc of components) {
   });
 }
 
+// The tile is a link itself: nested anchors would break the page, so thumbs show links as spans.
+const thumb = (html: string) =>
+  html.replaceAll(/<a\b/g, "<span data-link").replaceAll("</a>", "</span>");
+
 pages.push({
   path: "components/index.html",
   title: "Components",
@@ -226,7 +230,7 @@ pages.push({
   body: `<div class="cards">${components
     .map(
       (doc) =>
-        `<a class="tile" href="${doc.slug}.html"><div class="thumb">${doc.examples[0]?.html ?? ""}</div><div class="body"><strong>${doc.name}</strong><span>${escape(doc.description)}</span></div></a>`,
+        `<a class="tile" href="${doc.slug}.html"><div class="thumb">${thumb(doc.examples[0]?.html ?? "")}</div><div class="body"><strong>${doc.name}</strong><span>${escape(doc.description)}</span></div></a>`,
     )
     .join("")}</div>`,
 });

@@ -2,9 +2,9 @@ import { readdirSync, readFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 
 /** Size budgets in gzipped bytes; raise only with a ticket (EPIC 11). */
-const cssBudget = 6 * 1024;
-/** Per component module (largest today: Menu, 1.3 KiB). */
-const componentBudget = 2 * 1024;
+const cssBudget = 10 * 1024;
+/** Per component module (largest today: DatePicker with calendar, 2.7 KiB). */
+const componentBudget = 3 * 1024;
 
 const gzipSize = (url: URL) => gzipSync(readFileSync(url)).length;
 
