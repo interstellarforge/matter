@@ -1,6 +1,6 @@
 # Releasing Matter
 
-Registry: npmjs.com (public), scope `@interstellarforge`, MIT, published with provenance (ADR-010). Reason: the packages must be installable without any token or `.npmrc` (Atlas is open source; GitHub Packages requires authentication even for public packages). Tooling: Changesets. All `@interstellarforge/matter-*` packages share one version (`fixed` group in `.changeset/config.json`), so the compatibility matrix has a single axis.
+Registry: npmjs.com (public), scope `@interstellarforge`, MIT (ADR-010). Reason: the packages must be installable without any token or `.npmrc` (Atlas is open source; GitHub Packages requires authentication even for public packages). Tooling: Changesets. All `@interstellarforge/matter-*` packages share one version (`fixed` group in `.changeset/config.json`), so the compatibility matrix has a single axis.
 
 ## Versioning policy
 
@@ -14,7 +14,7 @@ Registry: npmjs.com (public), scope `@interstellarforge`, MIT, published with pr
 1. Every PR that changes published behaviour adds a changeset: `pnpm changeset` (use `--empty` for docs/CI-only changes).
 2. CI (`ci.yml`): format, typecheck, lint, build, test, size budget must pass.
 3. On merge to `main`, `release.yml` (changesets/action) opens or updates a "Version Packages" PR (versions + CHANGELOG).
-4. Merging that PR runs `pnpm release` (`pnpm build && changeset publish`) and publishes to npmjs.com with provenance (`NPM_CONFIG_PROVENANCE=true` in `release.yml`; v0.1.0 was published locally without it). After a release, `npm audit signatures` must list attestations for `@interstellarforge/matter-*`. Publishing needs the repository secret `NPM_TOKEN` (npm automation token) or, preferably, npm trusted publishing for this repository and workflow.
+4. Merging that PR runs `pnpm release` (`pnpm build && changeset publish`) and publishes to npmjs.com. The registry can lag a few minutes behind a publish; provenance attestations are not generated. Publishing needs the repository secret `NPM_TOKEN` (npm automation token) or, preferably, npm trusted publishing for this repository and workflow.
 5. Consumers pin the exact version and need no `.npmrc` or token; installs work like any public npm package.
 
 ## Release checklist (v0.1.0 and later)
