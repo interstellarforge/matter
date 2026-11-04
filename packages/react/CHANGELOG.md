@@ -1,5 +1,16 @@
 # @interstellarforge/matter-react
 
+## 0.3.0
+
+### Minor Changes
+
+- f33307a: added missing components
+- f33307a: Add FormField, DataTable, Sidebar, Combobox (single and multiple), DatePicker, DateRangePicker, Pagination, ToastRegion, Drawer, Breadcrumb and FileUpload.
+
+### Patch Changes
+
+- @interstellarforge/matter-icons@0.3.0
+
 ## 0.2.3
 
 ### Patch Changes
