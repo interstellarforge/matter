@@ -1,6 +1,6 @@
 {
   "name": "@interstellarforge/matter-tokens",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "Matter design tokens (DTCG source, CSS and TypeScript output). Framework-agnostic.",
   "repository": {

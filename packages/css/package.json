@@ -1,6 +1,6 @@
 {
   "name": "@interstellarforge/matter-css",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "Matter CSS distribution: token stylesheet and the no-flash theme init script. Framework-agnostic.",
   "repository": {
