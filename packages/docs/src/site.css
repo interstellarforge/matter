@@ -20,7 +20,7 @@ a {
 a:hover {
   color: var(--m-accent-hover);
 }
-:focus-visible {
+:focus-visible:not(.m-stepper__input) {
   outline: 2px solid var(--m-focus);
   outline-offset: 2px;
 }

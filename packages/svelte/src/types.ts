@@ -98,3 +98,48 @@ export interface CalendarLabels {
   /** Shows a "today" button when set. */
   todayLabel?: string;
 }
+
+export type ScoreRingTone =
+  "accent" | "info" | "success" | "warning" | "danger";
+
+export interface BarChartItem {
+  id?: string;
+  /** Short category label under the bar, e.g. "Mon". */
+  label: string;
+  value: number;
+  /** Value as text, e.g. "12 vacancies". Defaults to the number. */
+  valueLabel?: string;
+}
+
+export interface SortableMove {
+  id: string;
+  /** Index before and after the move. */
+  from: number;
+  to: number;
+  /** All ids in the new order. */
+  ids: string[];
+}
+
+export interface KanbanColumn<T extends { id: string }> {
+  id: string;
+  title: string;
+  /** Colour of the dot before the title. */
+  tone?: "neutral" | "accent" | "info" | "success" | "warning" | "danger";
+  items: T[];
+}
+
+export interface KanbanMove {
+  id: string;
+  fromColumn: string;
+  toColumn: string;
+  /** Position in the target column once the card is removed from its old place. */
+  index: number;
+}
+
+export interface ColorSwatchOption {
+  value: string;
+  /** Accessible name, e.g. "Teal". */
+  label: string;
+  /** Any CSS colour. */
+  color: string;
+}

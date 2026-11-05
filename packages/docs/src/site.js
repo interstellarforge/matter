@@ -310,3 +310,260 @@ for (const editor of $$('[data-demo="editor"]')) {
   });
   sync();
 }
+
+// Slider: the filled track follows the value.
+for (const slider of $$("input.m-slider")) {
+  const fill = () => {
+    const min = Number(slider.min || 0);
+    const max = Number(slider.max || 100);
+    slider.style.setProperty(
+      "--m-slider-fill",
+      `${((Number(slider.value) - min) / (max - min)) * 100}%`,
+    );
+  };
+  slider.addEventListener("input", fill);
+  fill();
+}
+
+// Number stepper: buttons step, values are clamped and rounded to the step.
+for (const stepper of $$(".m-stepper")) {
+  const input = $("input", stepper);
+  const [minus, plus] = $$("button", stepper);
+  const step = Number(input.step || 1);
+  const decimals = (String(step).split(".")[1] ?? "").length;
+  const sync = () => {
+    minus.disabled =
+      input.value !== "" && Number(input.value) <= Number(input.min);
+    plus.disabled =
+      input.value !== "" && Number(input.value) >= Number(input.max);
+    const unit = $(".m-stepper__unit", stepper)?.textContent;
+    if (unit) input.setAttribute("aria-valuetext", `${input.value} ${unit}`);
+  };
+  const set = (value) => {
+    const lo = input.min === "" ? -Infinity : Number(input.min);
+    const hi = input.max === "" ? Infinity : Number(input.max);
+    input.value = String(
+      Math.min(hi, Math.max(lo, Number(value.toFixed(decimals)))),
+    );
+    sync();
+  };
+  minus.addEventListener("click", () => set(Number(input.value || 0) - step));
+  plus.addEventListener("click", () => set(Number(input.value || 0) + step));
+  input.addEventListener("input", sync);
+  input.addEventListener("blur", () =>
+    set(Number(input.value || input.min || 0)),
+  );
+  sync();
+}
+
+// Sortable list and Kanban board: pointer and keyboard moves on the markup-only previews.
+function moveByKey(event, item, siblings) {
+  const index = siblings.indexOf(item);
+  const to = { ArrowUp: index - 1, ArrowDown: index + 1 }[event.key];
+  if (to === undefined || to < 0 || to >= siblings.length) return false;
+  event.preventDefault();
+  const other = siblings[to];
+  item.parentElement.insertBefore(item, to < index ? other : other.nextSibling);
+  return true;
+}
+
+for (const list of $$("ul.m-sortable")) {
+  const items = () => $$(":scope > .m-sortable__item", list);
+  for (const grip of $$(".m-sortable__grip", list)) {
+    const item = grip.closest("li");
+    grip.addEventListener("keydown", (event) => {
+      if (moveByKey(event, item, items())) grip.focus();
+    });
+  }
+
+  let drag;
+  list.addEventListener("pointerdown", (event) => {
+    const item = event.target.closest(".m-sortable__item");
+    if (!item || event.button !== 0) return;
+    if (
+      event.target.closest("a, button") &&
+      !event.target.closest(".m-sortable__grip")
+    )
+      return;
+    event.preventDefault();
+    const rect = item.getBoundingClientRect();
+    drag = {
+      item,
+      x: event.clientX,
+      y: event.clientY,
+      dx: event.clientX - rect.left,
+      dy: event.clientY - rect.top,
+      rect,
+    };
+  });
+  window.addEventListener("pointermove", (event) => {
+    if (!drag) return;
+    if (!drag.ghost) {
+      if (Math.hypot(event.clientX - drag.x, event.clientY - drag.y) < 5)
+        return;
+      drag.ghost = drag.item.cloneNode(true);
+      drag.ghost.classList.add("m-sortable__ghost");
+      drag.ghost.setAttribute("aria-hidden", "true");
+      drag.ghost.style.setProperty("--m-ghost-w", `${drag.rect.width}px`);
+      drag.placeholder = document.createElement("li");
+      drag.placeholder.className = "m-sortable__placeholder";
+      drag.placeholder.style.setProperty(
+        "--m-placeholder-h",
+        `${drag.rect.height}px`,
+      );
+      drag.item.dataset.dragging = "";
+      list.dataset.sorting = "";
+      document.body.append(drag.ghost);
+    }
+    drag.ghost.style.setProperty("--m-ghost-x", `${event.clientX - drag.dx}px`);
+    drag.ghost.style.setProperty("--m-ghost-y", `${event.clientY - drag.dy}px`);
+    const others = items().filter((el) => el !== drag.item);
+    const before = others.find((el) => {
+      const r = el.getBoundingClientRect();
+      return event.clientY < r.top + r.height / 2;
+    });
+    list.insertBefore(drag.placeholder, before ?? null);
+  });
+  const end = () => {
+    if (!drag) return;
+    const { item, ghost, placeholder } = drag;
+    drag = undefined;
+    if (!ghost) return;
+    placeholder.replaceWith(item);
+    delete item.dataset.dragging;
+    delete list.dataset.sorting;
+    ghost.remove();
+  };
+  window.addEventListener("pointerup", end);
+  window.addEventListener("pointercancel", end);
+}
+
+for (const board of $$(".m-kanban")) {
+  const emptyLabel = board.dataset.empty ?? "";
+  const refresh = () => {
+    for (const column of $$(".m-kanban__column", board)) {
+      const list = $(".m-kanban__list", column);
+      const cards = $$(":scope > .m-kanban__card", list);
+      $(".m-kanban__header .m-badge", column).textContent = String(
+        cards.length,
+      );
+      $(".m-kanban__empty", list)?.remove();
+      if (
+        cards.length === 0 &&
+        emptyLabel &&
+        !$(".m-kanban__placeholder", list)
+      ) {
+        const empty = document.createElement("li");
+        empty.className = "m-kanban__empty";
+        empty.textContent = emptyLabel;
+        list.append(empty);
+      }
+    }
+  };
+  refresh();
+
+  for (const grip of $$(".m-kanban__grip", board)) {
+    const card = grip.closest("li");
+    grip.addEventListener("keydown", (event) => {
+      const list = card.parentElement;
+      if (moveByKey(event, card, $$(":scope > .m-kanban__card", list))) {
+        grip.focus();
+        return;
+      }
+      const columns = $$(".m-kanban__column", board);
+      const at = columns.indexOf(card.closest(".m-kanban__column"));
+      const target = columns[at + { ArrowLeft: -1, ArrowRight: 1 }[event.key]];
+      if (!target) return;
+      event.preventDefault();
+      const targetList = $(".m-kanban__list", target);
+      const cards = $$(":scope > .m-kanban__card", targetList);
+      const index = $$(":scope > .m-kanban__card", list).indexOf(card);
+      targetList.insertBefore(card, cards[index] ?? null);
+      refresh();
+      grip.focus();
+    });
+  }
+
+  let drag;
+  board.addEventListener("pointerdown", (event) => {
+    const card = event.target.closest(".m-kanban__card");
+    if (!card || event.button !== 0) return;
+    if (
+      event.target.closest("a, button") &&
+      !event.target.closest(".m-kanban__grip")
+    )
+      return;
+    event.preventDefault();
+    const rect = card.getBoundingClientRect();
+    drag = {
+      card,
+      x: event.clientX,
+      y: event.clientY,
+      dx: event.clientX - rect.left,
+      dy: event.clientY - rect.top,
+      rect,
+    };
+  });
+  window.addEventListener("pointermove", (event) => {
+    if (!drag) return;
+    if (!drag.ghost) {
+      if (Math.hypot(event.clientX - drag.x, event.clientY - drag.y) < 5)
+        return;
+      drag.ghost = drag.card.cloneNode(true);
+      drag.ghost.classList.add("m-kanban__ghost");
+      drag.ghost.setAttribute("aria-hidden", "true");
+      drag.ghost.style.setProperty("--m-ghost-w", `${drag.rect.width}px`);
+      drag.placeholder = document.createElement("li");
+      drag.placeholder.className = "m-kanban__placeholder";
+      drag.placeholder.style.setProperty(
+        "--m-placeholder-h",
+        `${drag.rect.height}px`,
+      );
+      drag.card.dataset.dragging = "";
+      board.dataset.dragging = "";
+      document.body.append(drag.ghost);
+    }
+    drag.ghost.style.setProperty("--m-ghost-x", `${event.clientX - drag.dx}px`);
+    drag.ghost.style.setProperty("--m-ghost-y", `${event.clientY - drag.dy}px`);
+    const column = $$(".m-kanban__column", board).find((el) => {
+      const r = el.getBoundingClientRect();
+      return (
+        event.clientX >= r.left &&
+        event.clientX <= r.right &&
+        event.clientY >= r.top &&
+        event.clientY <= r.bottom
+      );
+    });
+    for (const el of $$(".m-kanban__column", board))
+      el.toggleAttribute("data-over", el === column);
+    if (!column) {
+      drag.placeholder.remove();
+      return;
+    }
+    const list = $(".m-kanban__list", column);
+    $(".m-kanban__empty", list)?.remove();
+    const cards = $$(":scope > .m-kanban__card", list).filter(
+      (el) => el !== drag.card,
+    );
+    const before = cards.find((el) => {
+      const r = el.getBoundingClientRect();
+      return event.clientY < r.top + r.height / 2;
+    });
+    list.insertBefore(drag.placeholder, before ?? null);
+  });
+  const end = () => {
+    if (!drag) return;
+    const { card, ghost, placeholder } = drag;
+    drag = undefined;
+    if (!ghost) return;
+    if (placeholder.parentElement) placeholder.replaceWith(card);
+    delete card.dataset.dragging;
+    delete board.dataset.dragging;
+    for (const el of $$(".m-kanban__column", board))
+      el.removeAttribute("data-over");
+    ghost.remove();
+    refresh();
+  };
+  window.addEventListener("pointerup", end);
+  window.addEventListener("pointercancel", end);
+}

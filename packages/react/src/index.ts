@@ -8,6 +8,13 @@ export type {
   IconButtonProps,
 } from "./Button.tsx";
 export { Button, ButtonGroup, IconButton } from "./Button.tsx";
+export type {
+  BarChartItem,
+  BarChartProps,
+  ScoreRingProps,
+  ScoreRingTone,
+} from "./Charts.tsx";
+export { BarChart, ScoreRing } from "./Charts.tsx";
 export type { ComboboxOption, ComboboxProps } from "./Combobox.tsx";
 export { Combobox } from "./Combobox.tsx";
 export type { CheckboxProps, SwitchProps } from "./Controls.tsx";
@@ -48,6 +55,20 @@ export type { FileUploadProps, UploadFile } from "./FileUpload.tsx";
 export { FileUpload } from "./FileUpload.tsx";
 export type { FieldControlProps, FormFieldProps } from "./FormField.tsx";
 export { FormField } from "./FormField.tsx";
+export type {
+  ColorSwatchesProps,
+  ColorSwatchOption,
+  NumberStepperProps,
+  SliderProps,
+} from "./Inputs.tsx";
+export { ColorSwatches, NumberStepper, Slider } from "./Inputs.tsx";
+export type {
+  KanbanBoardProps,
+  KanbanColumn,
+  KanbanItem,
+  KanbanMove,
+} from "./Kanban.tsx";
+export { KanbanBoard } from "./Kanban.tsx";
 export type { IconProps } from "./Icon.tsx";
 export { Icon } from "./Icon.tsx";
 export type { MenuItem, MenuProps } from "./Menu.tsx";
@@ -56,6 +77,14 @@ export type { PaginationProps } from "./Pagination.tsx";
 export { Pagination } from "./Pagination.tsx";
 export type { SidebarGroup, SidebarItem, SidebarProps } from "./Sidebar.tsx";
 export { Sidebar } from "./Sidebar.tsx";
+export type {
+  SortableItem,
+  SortableListProps,
+  SortableMove,
+} from "./Sortable.tsx";
+export { SortableList } from "./Sortable.tsx";
+export type { StatCardProps } from "./Stat.tsx";
+export { StatCard } from "./Stat.tsx";
 export type { SplitButtonProps } from "./SplitButton.tsx";
 export { SplitButton } from "./SplitButton.tsx";
 export type { TabItem, TabsProps } from "./Tabs.tsx";

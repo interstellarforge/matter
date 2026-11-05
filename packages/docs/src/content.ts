@@ -1682,4 +1682,547 @@ export const components: ComponentDoc[] = [
       ["label", "string", "", "Accessible name; omit for decorative icons."],
     ],
   },
+  {
+    slug: "score-ring",
+    name: "ScoreRing",
+    description:
+      "Shows a percentage as an arc around its value, for scores such as a match.",
+    status: "stable",
+    useWhen: ["A single score from 0 to 100 next to a title or in a list row."],
+    dontUseWhen: [
+      "Progress of a task. Use a ProgressBar.",
+      "Several values at once. Use a BarChart.",
+    ],
+    examples: [
+      {
+        title: "Sizes and tones",
+        html: `<div class="m-score-ring" role="meter" aria-label="Match" aria-valuemin="0" aria-valuemax="100" aria-valuenow="94" aria-valuetext="94%" data-size="md" data-tone="success" style="--m-score:94"><svg class="m-score-ring__svg" viewBox="0 0 36 36" aria-hidden="true" focusable="false"><circle class="m-score-ring__track" cx="18" cy="18" r="16"/><circle class="m-score-ring__arc" cx="18" cy="18" r="16" pathLength="100"/></svg><span class="m-score-ring__text" aria-hidden="true">94%</span></div>
+<div class="m-score-ring" role="meter" aria-label="Match" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62" aria-valuetext="62%" data-size="lg" data-tone="warning" style="--m-score:62"><svg class="m-score-ring__svg" viewBox="0 0 36 36" aria-hidden="true" focusable="false"><circle class="m-score-ring__track" cx="18" cy="18" r="16"/><circle class="m-score-ring__arc" cx="18" cy="18" r="16" pathLength="100"/></svg><span class="m-score-ring__text" aria-hidden="true">62%</span></div>
+<div class="m-score-ring" role="meter" aria-label="Match" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-valuetext="30%" data-size="sm" data-tone="danger" style="--m-score:30"><svg class="m-score-ring__svg" viewBox="0 0 36 36" aria-hidden="true" focusable="false"><circle class="m-score-ring__track" cx="18" cy="18" r="16"/><circle class="m-score-ring__arc" cx="18" cy="18" r="16" pathLength="100"/></svg><span class="m-score-ring__text" aria-hidden="true">30%</span></div>`,
+        react: `<ScoreRing label="Match" value={94} tone="success" />
+<ScoreRing label="Match" value={62} tone="warning" size="lg" />
+<ScoreRing label="Match" value={30} tone="danger" size="sm" />`,
+        svelte: `<ScoreRing label="Match" value={94} tone="success" />
+<ScoreRing label="Match" value={62} tone="warning" size="lg" />
+<ScoreRing label="Match" value={30} tone="danger" size="sm" />`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Tone",
+        body: "`tone` colours the arc only; the number stays in the text colour for contrast. Pick the tone from the value in your app (for example success from 85).",
+      },
+      {
+        title: "Centre text",
+        body: "By default the centre shows the rounded percentage. Pass children to replace it; set `valueText` so the spoken value matches.",
+      },
+    ],
+    accessibility: [
+      "`role=meter` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax` and `aria-valuetext` (default: the rounded percentage). The `label` is required.",
+      "The tone is never the only signal: the value is always text.",
+    ],
+    props: [
+      ["label", "string", "", "Accessible name (required)."],
+      ["value", "number", "", "Current value (required)."],
+      ["max", "number", "100", "Value that fills the ring."],
+      ["size", '"sm" | "md" | "lg"', '"md"', "Diameter."],
+      [
+        "tone",
+        '"accent" | "info" | "success" | "warning" | "danger"',
+        '"accent"',
+        "Arc colour.",
+      ],
+      ["valueText", "string", "rounded %", "Spoken value."],
+    ],
+  },
+  {
+    slug: "bar-chart",
+    name: "BarChart",
+    description:
+      "One bar per category, for comparing a handful of values such as counts per day.",
+    status: "stable",
+    useWhen: ["Comparing 3 to about 14 values in one series."],
+    dontUseWhen: [
+      "Many series, axes, zooming or exact reading. Use a charting library.",
+    ],
+    examples: [
+      {
+        title: "Per weekday",
+        html: `<div class="m-barchart" role="group" aria-label="New vacancies per day"><ul class="m-barchart__bars" role="list">${[
+          ["Mon", 6],
+          ["Tue", 11],
+          ["Wed", 8],
+          ["Thu", 14],
+          ["Fri", 10],
+          ["Sat", 18],
+          ["Sun", 12],
+        ]
+          .map(
+            ([label, value]) =>
+              `<li class="m-barchart__bar" style="--m-bar:${String(Math.round((Number(value) / 18) * 100))}%"><span class="m-barchart__track" aria-hidden="true"><span class="m-barchart__value">${String(value)}</span><span class="m-barchart__fill"></span></span><span class="m-barchart__label" aria-hidden="true">${String(label)}</span><span class="m-sr-only">${String(label)}: ${String(value)}</span></li>`,
+          )
+          .join("")}</ul></div>`,
+        react: `<BarChart
+  label="New vacancies per day"
+  data={[
+    { label: "Mon", value: 6 },
+    { label: "Tue", value: 11 },
+    { label: "Sat", value: 18, valueLabel: "18 vacancies" },
+  ]}
+/>`,
+        svelte: `<BarChart
+  label="New vacancies per day"
+  data={[
+    { label: "Mon", value: 6 },
+    { label: "Tue", value: 11 },
+    { label: "Sat", value: 18, valueLabel: "18 vacancies" },
+  ]}
+/>`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Height",
+        body: "The chart is 9rem high; set `--m-chart-h` on it to change that. Bars are relative to the largest value unless you pass `max`.",
+      },
+      {
+        title: "Values",
+        body: "The value appears above a bar on hover. `valueLabel` replaces the number in that label and in the spoken text.",
+      },
+    ],
+    accessibility: [
+      "A group named by `label` holding a list; each bar is one item read as `label: value`, so the chart is usable without seeing it.",
+      "Add a caption or heading next to the chart that says what it measures; the group name should match it.",
+    ],
+    props: [
+      ["label", "string", "", "Accessible name (required)."],
+      [
+        "data",
+        "{ id?, label, value, valueLabel? }[]",
+        "",
+        "One entry per bar.",
+      ],
+      ["max", "number", "largest value", "Value that fills the height."],
+    ],
+  },
+  {
+    slug: "stat-card",
+    name: "StatCard",
+    description:
+      "A Card for one key figure: a label, a value, an optional icon, a trend and supporting text.",
+    status: "stable",
+    useWhen: ["Dashboard figures and summaries at the top of a page."],
+    dontUseWhen: [
+      "Tabular data. Use a DataTable.",
+      "A clickable tile. Put a link or button inside.",
+    ],
+    examples: [
+      {
+        title: "With icon, trend and description",
+        html: `<div class="m-card m-stat" style="max-inline-size:20rem"><div class="m-stat__head"><p class="m-stat__label">Active vacancies</p><span class="m-stat__icon" aria-hidden="true">${icon('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>')}</span></div><div class="m-stat__body"><p class="m-stat__value">284</p><span class="m-badge" data-tone="success">+18 this week</span></div><p class="m-stat__text">From 4 connected sources</p></div>`,
+        react: `<StatCard
+  label="Active vacancies"
+  value="284"
+  icon={<Icon icon={briefcase} />}
+  aside={<Badge tone="success">+18 this week</Badge>}
+  description="From 4 connected sources"
+/>`,
+        svelte: `<StatCard label="Active vacancies" value="284" description="From 4 connected sources">
+  {#snippet icon()}<Icon icon={briefcase} />{/snippet}
+  {#snippet aside()}<Badge tone="success">+18 this week</Badge>{/snippet}
+</StatCard>`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Composition",
+        body: "StatCard is a Card (`m-card`) with fixed slots. It has no behaviour; format the value in your app (locale, units).",
+      },
+    ],
+    accessibility: [
+      "Plain paragraphs in reading order: label, value, trend, description. The icon is decorative.",
+      "Trend colour comes from a Badge, which must also carry text.",
+    ],
+    props: [
+      ["label", "string", "", "What the value measures (required)."],
+      ["value", "string", "", "The figure (required)."],
+      ["icon", "node / snippet", "", "Decorative icon."],
+      ["aside", "node / snippet", "", "Trend or Badge next to the value."],
+      ["description", "string", "", "Supporting text."],
+    ],
+  },
+  {
+    slug: "sortable-list",
+    name: "SortableList",
+    description:
+      "A list whose items the user can reorder by dragging a grip or with the keyboard.",
+    status: "stable",
+    useWhen: ["Letting people set the order of sections, steps or priorities."],
+    dontUseWhen: [
+      "Moving items between lists. Use a KanbanBoard.",
+      "Sorting by a column. Use a DataTable.",
+    ],
+    examples: [
+      {
+        title: "Sections",
+        note: "Try it: drag an item, or focus its grip and use the arrow keys.",
+        html: `<ul class="m-sortable" aria-label="Sections" style="max-inline-size:22rem">${[
+          "Personal details",
+          "Profile",
+          "Experience",
+        ]
+          .map(
+            (name) =>
+              `<li class="m-sortable__item"><button type="button" class="m-sortable__grip" aria-label="Move ${name}">${icon('<path d="M9 5h.01M9 12h.01M9 19h.01M15 5h.01M15 12h.01M15 19h.01"/>')}</button><div class="m-sortable__content">${name}</div></li>`,
+          )
+          .join("")}</ul>`,
+        react: `const [sections, setSections] = useState(initial);
+
+<SortableList
+  label="Sections"
+  items={sections}
+  renderItem={(item) => item.title}
+  gripLabel={(item) => \`Move \${item.title}\`}
+  announceMove={(item, n, total) => \`\${item.title}, \${n} of \${total}\`}
+  onReorder={({ ids }) =>
+    setSections(ids.map((id) => sections.find((s) => s.id === id)!))
+  }
+/>`,
+        svelte: `<SortableList
+  label="Sections"
+  items={sections}
+  gripLabel={(item) => \`Move \${item.title}\`}
+  announceMove={(item, n, total) => \`\${item.title}, \${n} of \${total}\`}
+  onReorder={({ ids }) => (sections = ids.map((id) => sections.find((s) => s.id === id)!))}
+>
+  {#snippet item(section)}{section.title}{/snippet}
+</SortableList>`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Controlled order",
+        body: "The app owns the order. `onReorder` gives the moved id, its old and new index and all ids in the new order; while dragging, a floating copy follows the pointer and a placeholder marks where it will land; the order is committed on release. Mouse and pen drag the whole item, touch drags by the grip.",
+      },
+    ],
+    accessibility: [
+      "Every item has a grip button named by `gripLabel`. Moving by keyboard needs no pointer.",
+      "After a move a polite live region speaks `announceMove`.",
+    ],
+    keyboard: [
+      ["↑ / ↓", "Move the focused item one place up or down."],
+      ["Home / End", "Move the item to the start or the end."],
+    ],
+    props: [
+      ["label", "string", "", "Accessible name of the list (required)."],
+      ["items", "{ id }[]", "", "Items in the current order."],
+      ["renderItem / item", "function / snippet", "", "Content of one item."],
+      [
+        "onReorder",
+        "({ id, from, to, ids }) => void",
+        "",
+        "Called after a move.",
+      ],
+      ["gripLabel", "(item) => string", "", "Accessible name of a grip."],
+      [
+        "announceMove",
+        "(item, position, total) => string",
+        "",
+        "Spoken after a move.",
+      ],
+    ],
+  },
+  {
+    slug: "kanban-board",
+    name: "KanbanBoard",
+    description:
+      "Columns of cards that can be dragged between columns or moved with the keyboard.",
+    status: "stable",
+    useWhen: ["Items that move through stages: pipelines, boards, statuses."],
+    dontUseWhen: [
+      "A single reorderable list. Use a SortableList.",
+      "Rules about which moves are allowed. Check them in `onMove` and leave `columns` unchanged to refuse.",
+    ],
+    examples: [
+      {
+        title: "Pipeline",
+        note: "Try it: drag a card between columns, or focus its grip and use the arrow keys.",
+        html: `<div class="m-kanban" role="group" aria-label="Pipeline" data-empty="No cards">${[
+          ["Saved", "info", ["Project manager", "Functional administrator"]],
+          ["Preparing", "warning", ["Product owner"]],
+          ["Applied", "success", []],
+        ]
+          .map(
+            ([title, tone, cards]) =>
+              `<section class="m-kanban__column" aria-label="${String(title)}" data-tone="${String(tone)}"><h3 class="m-kanban__header"><span>${String(title)}</span><span class="m-badge" data-tone="neutral">${String((cards as string[]).length)}</span></h3><ul class="m-kanban__list" role="list">${(
+                cards as string[]
+              )
+                .map(
+                  (card) =>
+                    `<li class="m-kanban__card"><button type="button" class="m-kanban__grip" aria-label="Move ${card}">${icon('<path d="M9 5h.01M9 12h.01M9 19h.01M15 5h.01M15 12h.01M15 19h.01"/>')}</button><div class="m-kanban__content">${card}</div></li>`,
+                )
+                .join("")}</ul></section>`,
+          )
+          .join("")}</div>`,
+        react: `<KanbanBoard
+  label="Applications"
+  columns={columns}
+  renderCard={(item) => item.title}
+  emptyLabel="No cards"
+  renderFooter={(column) => <Button variant="ghost">Add</Button>}
+  gripLabel={(item) => \`Move \${item.title}\`}
+  announceMove={(item, column, n, total) => \`\${item.title} to \${column.title}, \${n} of \${total}\`}
+  onMove={(move) => setColumns((current) => applyMove(current, move))}
+/>`,
+        svelte: `<KanbanBoard
+  label="Applications"
+  {columns}
+  emptyLabel="No cards"
+  gripLabel={(item) => \`Move \${item.title}\`}
+  announceMove={(item, column, n, total) => \`\${item.title} to \${column.title}, \${n} of \${total}\`}
+  onMove={(move) => (columns = applyMove(columns, move))}
+>
+  {#snippet card(item)}{item.title}{/snippet}
+  {#snippet footer(column)}<Button variant="ghost">Add</Button>{/snippet}
+</KanbanBoard>`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Controlled data",
+        body: "The app owns `columns`. `onMove` gives the id, source and target column and the index in the target once the card has left its old place (like `splice`). While dragging, the board shows a placeholder and a floating copy of the card; it commits on release.",
+      },
+      {
+        title: "Mouse, touch and keyboard",
+        body: "Mouse and pen drag the whole card (buttons and links inside keep working). Touch drags by the grip, which stays visible on touch screens. The grip is hidden visually on other devices until it has focus.",
+      },
+    ],
+    accessibility: [
+      "The board is a group; each column is a section named by its title, with a card count.",
+      "Every card has a grip button named by `gripLabel`; focus returns to it after a move. A polite live region speaks `announceMove`.",
+    ],
+    keyboard: [
+      ["↑ / ↓", "Move the focused card up or down in its column."],
+      [
+        "← / →",
+        "Move the card to the previous or next column, at the same position if possible.",
+      ],
+    ],
+    props: [
+      ["label", "string", "", "Accessible name of the board (required)."],
+      [
+        "columns",
+        "{ id, title, tone?, items }[]",
+        "",
+        "Columns with their cards (`id` required on each card).",
+      ],
+      ["renderCard / card", "function / snippet", "", "Content of one card."],
+      ["emptyLabel", "string", "", "Shown in a column without cards."],
+      [
+        "renderFooter / footer",
+        "function / snippet",
+        "",
+        "Below a column's cards.",
+      ],
+      [
+        "onMove",
+        "({ id, fromColumn, toColumn, index }) => void",
+        "",
+        "Called after a move.",
+      ],
+      ["gripLabel", "(item) => string", "", "Accessible name of a grip."],
+      [
+        "announceMove",
+        "(item, column, position, total) => string",
+        "",
+        "Spoken after a move.",
+      ],
+    ],
+  },
+  {
+    slug: "color-swatches",
+    name: "ColorSwatches",
+    description: "A row of colour chips of which one can be chosen.",
+    status: "stable",
+    useWhen: ["Picking one colour from a short, fixed set (an accent colour)."],
+    dontUseWhen: ["Any colour. Use `input type=color` or a full picker."],
+    examples: [
+      {
+        title: "Accent colour",
+        html: `<div class="m-swatches" role="radiogroup" aria-label="Accent colour">${[
+          ["Blue", "#2f6fbd", true],
+          ["Teal", "#2a8c86", false],
+          ["Violet", "#6c6fc0", false],
+          ["Slate", "#4a5568", false],
+          ["Copper", "#c0805e", false],
+        ]
+          .map(
+            ([name, color, on]) =>
+              `<label class="m-swatch" title="${String(name)}"><input type="radio" name="swatch-demo" value="${String(name).toLowerCase()}" aria-label="${String(name)}"${on ? " checked" : ""}><span class="m-swatch__chip" style="--m-swatch:${String(color)}"></span></label>`,
+          )
+          .join("")}</div>`,
+        react: `<ColorSwatches
+  label="Accent colour"
+  options={[
+    { value: "blue", label: "Blue", color: "#2f6fbd" },
+    { value: "teal", label: "Teal", color: "#2a8c86" },
+  ]}
+  value={accent}
+  onValueChange={setAccent}
+/>`,
+        svelte: `<ColorSwatches
+  label="Accent colour"
+  options={[
+    { value: "blue", label: "Blue", color: "#2f6fbd" },
+    { value: "teal", label: "Teal", color: "#2a8c86" },
+  ]}
+  bind:value={accent}
+/>`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Colours are data",
+        body: "`color` is any CSS colour from your app (for example a document theme). Matter styles the frame and selection ring only; the selection ring uses the text colour so it shows on any chip.",
+      },
+    ],
+    accessibility: [
+      "Native radio inputs in a `radiogroup`; each has the colour name as its accessible name, so the colour is never the only information.",
+      "The selected chip has a ring, not only a different colour.",
+    ],
+    keyboard: [
+      ["Tab", "Enter and leave the group (one tab stop)."],
+      ["← → ↑ ↓", "Move to and select the previous or next colour."],
+    ],
+    props: [
+      ["label", "string", "", "Accessible name of the group (required)."],
+      ["options", "{ value, label, color }[]", "", "The choices."],
+      [
+        "value / defaultValue",
+        "string",
+        "",
+        "Selected value (React: both; Svelte: `bind:value`).",
+      ],
+      ["onValueChange", "(value) => void", "", "Called on selection."],
+      ["name", "string", "generated", "Form field name."],
+      ["disabled", "boolean", "false", "Disables all chips."],
+    ],
+  },
+  {
+    slug: "slider",
+    name: "Slider",
+    description:
+      "Picks a number from a range by dragging, with a filled track.",
+    status: "stable",
+    useWhen: [
+      "A value within a known range where the exact number matters less than the position.",
+    ],
+    dontUseWhen: ["An exact value. Use a NumberStepper or an Input."],
+    examples: [
+      {
+        title: "Line spacing",
+        html: `<div style="max-inline-size:20rem"><input class="m-slider" type="range" min="0" max="100" value="40" aria-label="Line spacing" style="--m-slider-fill:40%"></div>`,
+        react: `<Slider aria-label="Line spacing" value={spacing} onValueChange={setSpacing} />`,
+        svelte: `<Slider aria-label="Line spacing" bind:value={spacing} />`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Native input",
+        body: "A `type=range` input: `min`, `max`, `step`, `disabled` and `name` work as usual, and so do forms. The filled part is drawn from the value.",
+      },
+    ],
+    accessibility: [
+      "Needs an accessible name (`aria-label`, `aria-labelledby` or a FormField label).",
+      '`valueText` sets `aria-valuetext` when the bare number is unclear, for example "1.5 lines".',
+    ],
+    keyboard: [
+      ["← → ↑ ↓", "Change by one step."],
+      ["Home / End", "Minimum and maximum."],
+      ["PageUp / PageDown", "Larger steps (browser default)."],
+    ],
+    props: [
+      [
+        "value / defaultValue",
+        "number",
+        "min",
+        "Current value (React: both; Svelte: `bind:value`).",
+      ],
+      ["onValueChange", "(value) => void", "", "Called while dragging."],
+      ["min, max, step", "number", "0, 100, 1", "Range."],
+      ["valueText", "(value) => string", "", "Spoken value."],
+    ],
+  },
+  {
+    slug: "number-stepper",
+    name: "NumberStepper",
+    description:
+      "A number input with minus and plus buttons and an optional unit.",
+    status: "stable",
+    useWhen: ["Small adjustments to a number: font size, zoom, quantity."],
+    dontUseWhen: ["Large ranges where position matters. Use a Slider."],
+    examples: [
+      {
+        title: "Font size",
+        html: `<div class="m-stepper" style="max-inline-size:14rem"><button type="button" class="m-button" data-icon-only aria-label="Smaller">${icon('<path d="M5 12h14"/>')}</button><span class="m-stepper__field"><input class="m-stepper__input" type="number" inputmode="decimal" min="8" max="14" step="0.5" value="10.5" aria-label="Font size" aria-valuetext="10.5 pt"><span class="m-stepper__unit" aria-hidden="true">pt</span></span><button type="button" class="m-button" data-icon-only aria-label="Larger">${icon('<path d="M12 5v14M5 12h14"/>')}</button></div>`,
+        react: `<NumberStepper
+  aria-label="Font size"
+  value={size}
+  onValueChange={setSize}
+  min={8}
+  max={14}
+  step={0.5}
+  unit="pt"
+  decrementLabel="Smaller"
+  incrementLabel="Larger"
+/>`,
+        svelte: `<NumberStepper
+  aria-label="Font size"
+  bind:value={size}
+  min={8}
+  max={14}
+  step={0.5}
+  unit="pt"
+  decrementLabel="Smaller"
+  incrementLabel="Larger"
+/>`,
+      },
+    ],
+    configurations: [
+      {
+        title: "Limits and precision",
+        body: "Values are clamped to `min` and `max` and rounded to the precision of `step`, so 10 + 0.5 is 10.5, never 10.500000001. A button is disabled at its limit. Typing is free until the field loses focus.",
+      },
+    ],
+    accessibility: [
+      "A native `type=number` input (role spinbutton) named by `aria-label`; the buttons are named by `decrementLabel` and `incrementLabel`.",
+      "With `unit` the spoken value is the number plus the unit.",
+    ],
+    keyboard: [
+      ["↑ / ↓", "In the input: native step up or down."],
+      ["Tab, Enter / Space", "The buttons are normal buttons."],
+    ],
+    props: [
+      [
+        "value / defaultValue",
+        "number",
+        "",
+        "Current value (React: both; Svelte: `bind:value`).",
+      ],
+      [
+        "onValueChange",
+        "(value) => void",
+        "",
+        "Called with a valid, clamped value.",
+      ],
+      ["min, max, step", "number", "—, —, 1", "Range and step."],
+      ["unit", "string", "", "Shown after the number."],
+      [
+        "decrementLabel, incrementLabel",
+        "string",
+        "",
+        "Button names (required).",
+      ],
+    ],
+  },
 ];
