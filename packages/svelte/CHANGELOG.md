@@ -1,5 +1,16 @@
 # @interstellarforge/matter-svelte
 
+## 0.5.0
+
+### Minor Changes
+
+- b7e6a9f: Add the Pulsar component requests (MATTER-96): ScoreRing, BarChart, StatCard, SortableList, KanbanBoard (pointer and keyboard drag-and-drop without a dependency), ColorSwatches, Slider and NumberStepper. Add the `m-sr-only` utility class.
+- b7e6a9f: new statistics components
+
+### Patch Changes
+
+- @interstellarforge/matter-icons@0.5.0
+
 ## 0.4.0
 
 ### Minor Changes
