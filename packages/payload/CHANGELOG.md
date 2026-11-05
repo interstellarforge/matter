@@ -1,5 +1,13 @@
 # @interstellarforge/matter-payload
 
+## 0.5.0
+
+### Patch Changes
+
+- Updated dependencies [b7e6a9f]
+- Updated dependencies [b7e6a9f]
+  - @interstellarforge/matter-css@0.5.0
+
 ## 0.4.0
 
 ### Patch Changes
